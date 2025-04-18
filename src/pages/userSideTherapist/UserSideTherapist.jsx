@@ -1,13 +1,14 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import { QuestionSuggestions } from "../../components/QuestionSuggestion";
+import { SidebarNav } from "../../components/therapist-dashboard/SidebarNav";
 
 const UserSideTherapist = () => {
   return (
     <div>
       <Navbar />
-      <QuestionSuggestions />
+      {/* <QuestionSuggestions /> */}
       UserSideTherapist
+      <SidebarNav />
     </div>
   );
 };
