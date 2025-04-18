@@ -80,14 +80,6 @@ export const analyzeSentiment = async (text) => {
 };
 
 // Use environment variables for Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCMeP3kEttFnr87Ht1__1SCyVMAjbkLATg",
-  authDomain: "hackbengl.firebaseapp.com",
-  projectId: "hackbengl",
-  storageBucket: "hackbengl.firebasestorage.app",
-  messagingSenderId: "642327373322",
-  appId: "1:642327373322:web:149fefeb134f1cd18f21f3",
-};
 
 // Initialize Firebase only if config is valid
 const app = initializeApp(firebaseConfig);
