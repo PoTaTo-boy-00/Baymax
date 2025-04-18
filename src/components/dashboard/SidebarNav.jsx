@@ -23,11 +23,7 @@ const navItems = [
     href: "/dashboard",
     icon: Home,
   },
-  {
-    title: "Patient Requests",
-    href: "/patient-requests",
-    icon: Bell,
-  },
+
   {
     title: "Appointments",
     href: "/dashboard/appointments",
