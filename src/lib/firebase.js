@@ -1,5 +1,9 @@
 // This is a placeholder for Firebase integration
 // In a real app, you would initialize Firebase here
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 export const anonymousLogin = async () => {
   // In a real implementation, this would use Firebase anonymous auth
@@ -74,3 +78,29 @@ export const analyzeSentiment = async (text) => {
     };
   }
 };
+
+// Use environment variables for Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCMeP3kEttFnr87Ht1__1SCyVMAjbkLATg",
+  authDomain: "hackbengl.firebaseapp.com",
+  projectId: "hackbengl",
+  storageBucket: "hackbengl.firebasestorage.app",
+  messagingSenderId: "642327373322",
+  appId: "1:642327373322:web:149fefeb134f1cd18f21f3",
+};
+
+// Initialize Firebase only if config is valid
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+
+// For debugging
+console.log("Firebase initialized with config:", {
+  apiKey: firebaseConfig.apiKey ? "Set" : "Not set",
+  authDomain: firebaseConfig.authDomain ? "Set" : "Not set",
+  projectId: firebaseConfig.projectId ? "Set" : "Not set",
+  storageBucket: firebaseConfig.storageBucket ? "Set" : "Not set",
+  messagingSenderId: firebaseConfig.messagingSenderId ? "Set" : "Not set",
+  appId: firebaseConfig.appId ? "Set" : "Not set",
+});
