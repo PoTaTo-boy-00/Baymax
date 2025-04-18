@@ -17,7 +17,7 @@ export default function Home() {
             navigate life's challenges and improve your mental wellbeing.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/therapists">
+            <Link to="/get-therapist">
               <Button size="lg" className="gap-2">
                 Find a Therapist <ArrowRight className="h-4 w-4" />
               </Button>
