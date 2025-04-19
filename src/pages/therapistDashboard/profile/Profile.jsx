@@ -192,7 +192,7 @@ export const Profile = () => {
   //     );
   //   }
 
-  return (-
+  return (
     <>
     <Navbar />
     <div className="max-w-4xl mx-auto">
