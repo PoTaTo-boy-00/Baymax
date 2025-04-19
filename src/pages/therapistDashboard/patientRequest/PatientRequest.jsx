@@ -8,7 +8,6 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import {
   Card,
   CardContent,
@@ -22,10 +21,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "react-toastify"; // Changed to react-toastify
 import { Loader2 } from "lucide-react";
+import { db } from "../../../lib/firebase";
 import { useAuth } from "../../../../contexts/AuthContext";
-import Navbar from "../../../components/Navbar";
 
 export const PatientRequests = () => {
   const { user } = useAuth();
@@ -34,14 +33,13 @@ export const PatientRequests = () => {
   const [rejectedRequests, setRejectedRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     if (!user) return;
 
     const fetchRequests = async () => {
       try {
-        // Fetch all appointment requests for this therapist
+        // Fetch all appointment requests for this therapist (simpler query)
         const requestsQuery = query(
           collection(db, "appointments"),
           where("therapistId", "==", user.uid)
@@ -88,18 +86,14 @@ export const PatientRequests = () => {
         setRejectedRequests(rejected.sort(sortByDateTime));
       } catch (error) {
         console.error("Error fetching requests:", error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to load patient requests",
-        });
+        toast.error("Failed to load patient requests");
       } finally {
         setLoading(false);
       }
     };
 
     fetchRequests();
-  }, [user, toast]);
+  }, [user]);
 
   const handleAccept = async (requestId) => {
     setActionLoading(true);
@@ -117,17 +111,10 @@ export const PatientRequests = () => {
         { ...request, status: "accepted" },
       ]);
 
-      toast({
-        title: "Request Accepted",
-        description: "The appointment has been confirmed",
-      });
+      toast.success("The appointment has been confirmed");
     } catch (error) {
       console.error("Error accepting request:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to accept request",
-      });
+      toast.error("Failed to accept request");
     } finally {
       setActionLoading(false);
     }
@@ -149,17 +136,10 @@ export const PatientRequests = () => {
         { ...request, status: "rejected" },
       ]);
 
-      toast({
-        title: "Request Rejected",
-        description: "The appointment request has been declined",
-      });
+      toast.success("The appointment request has been declined");
     } catch (error) {
       console.error("Error rejecting request:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to reject request",
-      });
+      toast.error("Failed to reject request");
     } finally {
       setActionLoading(false);
     }
@@ -177,17 +157,10 @@ export const PatientRequests = () => {
         setRejectedRequests(rejectedRequests.filter((r) => r.id !== requestId));
       }
 
-      toast({
-        title: "Request Deleted",
-        description: "The appointment request has been removed",
-      });
+      toast.success("The appointment request has been removed");
     } catch (error) {
       console.error("Error deleting request:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to delete request",
-      });
+      toast.error("Failed to delete request");
     } finally {
       setActionLoading(false);
     }
@@ -283,20 +256,18 @@ export const PatientRequests = () => {
     </Card>
   );
 
-  //   if (loading) {
-  //     return (
-  //       <div className="space-y-6">
-  //         <h1 className="text-3xl font-bold">Patient Requests</h1>
-  //         <div className="flex justify-center py-12">
-  //           <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-  //         </div>
-  //       </div>
-  //     );
-  //   }
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <h1 className="text-3xl font-bold">Patient Requests</h1>
+        <div className="flex justify-center py-12">
+          <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
-    <Navbar />
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Patient Requests</h1>
 
@@ -350,6 +321,5 @@ export const PatientRequests = () => {
         </TabsContent>
       </Tabs>
     </div>
-    </>
   );
 };
