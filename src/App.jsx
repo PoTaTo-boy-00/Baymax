@@ -7,8 +7,8 @@ import UserDashboard from "./pages/User/UserDashboard";
 import UserSideTherapist from "./pages/userSideTherapist/UserSideTherapist";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
-import {SignupPage} from "./pages/signup/page";
-import {ChatPage} from "./pages/chat/therapistId/page";
+import { SignupPage } from "./pages/signup/page";
+import { ChatPage } from "./pages/chat/therapistId/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
 import { PatientRequests } from "./pages/therapistDashboard/patientRequest/PatientRequest";
 import { TherapistMessages } from "./pages/therapistDashboard/message/TherapistMessages";
@@ -22,7 +22,7 @@ import Navbar from "./components/Navbar";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const { user } = useAuth();
-    return user ? children : <Link to="/login" replace />;
+    return user.role === "therapist" ? children : <Link to="/login" />;
   };
   return (
     <>
@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<UserDashboard />} />
-        
+
           <Route path="/therapist" element={<UserSideTherapist />} />
 
           <Route
@@ -92,9 +92,9 @@ function App() {
           <Route
             path="/signupTherapist"
             element={
-              // <ProtectedRoute>
-              <TherapistRegisterPage />
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <TherapistRegisterPage />
+              </ProtectedRoute>
             }
           />
           <Route
@@ -102,6 +102,14 @@ function App() {
             element={
               // <ProtectedRoute>
               <Login />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              // <ProtectedRoute>
+              <SignupPage />
               // </ProtectedRoute>
             }
           />
