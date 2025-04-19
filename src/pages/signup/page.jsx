@@ -12,7 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Loader2 } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-export default function SignupPage() {
+export const SignupPage = () => {
 
     const [searchParams] = useSearchParams()
     const defaultRole = searchParams.get("role") === "therapist" ? "therapist" : "patient"
