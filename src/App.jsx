@@ -44,9 +44,9 @@ function App() {
           <Route
             path="/therapist/dashboard/profile"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <Profile />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
           <Route
