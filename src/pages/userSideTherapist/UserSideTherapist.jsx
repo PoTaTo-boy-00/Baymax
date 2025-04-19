@@ -22,7 +22,7 @@ export default function Home() {
                 Find a Therapist <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link to="/signup?role=therapist">
+            <Link to="/signupTherapist">
               <Button size="lg" variant="outline">
                 Join as a Therapist
               </Button>
@@ -84,7 +84,7 @@ export default function Home() {
             Join thousands of people who have found the right therapist through
             BayMax.
           </p>
-          <Link to="/therapists">
+          <Link to="/therapist">
             <Button size="lg">Browse Therapists</Button>
           </Link>
         </div>

@@ -16,7 +16,7 @@ export function TherapistButton() {
   const navigate = useNavigate();
   const handleSubmit = () => {
     // Redirect to the therapist matching
-    navigate("/therapists");
+    navigate("/therapist");
   };
 
   return (
