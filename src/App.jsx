@@ -10,7 +10,7 @@ import UserSideTherapist from "./pages/userSideTherapist/UserSideTherapist";
 import { AuthProvider } from "../contexts/AuthContext";
 import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
 import SignupPage from "./pages/signup/page";
-import ChatPage from "./pages/therapistDashboard/message/ChatPage";
+import ChatPage from "./pages/chat/therapistId/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
 import { PatientRequests } from "./pages/therapistDashboard/patientRequest/PatientRequest";
 import { TherapistMessages } from "./pages/therapistDashboard/message/TherapistMessages";
