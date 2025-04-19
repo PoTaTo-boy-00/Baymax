@@ -1,6 +1,4 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Button } from "./components/ui/button";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
@@ -27,26 +25,12 @@ function App() {
     return user ? children : <Link to="/login" replace />;
   };
   return (
-<<<<<<< HEAD
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/therapists" element={<UserSideTherapist />} />
-        {/* <Route path="/login" element={<LoginPage />} /> */}
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/" element={<ChatPage />} />
-        <Route path="/therapist" element={<UserSideTherapist />} />
-=======
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<UserDashboard />} />
-        </Routes>
->>>>>>> upstream/main
-
-        <Routes>
+        
           <Route path="/therapist" element={<UserSideTherapist />} />
 
           <Route
