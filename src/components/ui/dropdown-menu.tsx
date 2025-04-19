@@ -23,6 +23,7 @@ function DropdownMenuTrigger({
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
   return (
     <DropdownMenuPrimitive.Trigger
+      asChild 
       data-slot="dropdown-menu-trigger"
       {...props}
     />
@@ -68,6 +69,7 @@ function DropdownMenuItem({
 }) {
   return (
     <DropdownMenuPrimitive.Item
+      asChild
       data-slot="dropdown-menu-item"
       data-inset={inset}
       data-variant={variant}
