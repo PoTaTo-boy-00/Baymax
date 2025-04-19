@@ -26,7 +26,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRouter } from "@tanstack/react-router";
 
-// import { BookingModal } from "@/components/BookingModal";
+import { BookingModal } from "@/components/BookingModal";
 
 export const TherapistProfilePage = () => {
   const { id } = useParams();
@@ -385,13 +385,13 @@ export const TherapistProfilePage = () => {
         </div>
       </div>
 
-      {/* {showBookingModal && selectedSlot && (
+      {showBookingModal && selectedSlot && (
         <BookingModal
           therapist={therapist}
           slot={selectedSlot}
           onClose={() => setShowBookingModal(false)}
         />
-      )} */}
+      )}
     </div>
   );
 };

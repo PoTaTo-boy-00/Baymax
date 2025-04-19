@@ -148,7 +148,7 @@ export const TherapistMessages = () => {
                   </div>
                   <Button asChild>
                     <Link
-                      to={`/therapist-dashboard/messages/${conversation.patientId}`}
+                      to={`/therapist/dashboard/messages/${conversation.patientId}`}
                     >
                       <MessageSquare className="mr-2 h-4 w-4" />
                       Chat

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { doc, setDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
+import { db } from "../../../lib/firebase";
 
 const specialtiesList = [
   "Anxiety",
@@ -41,7 +42,7 @@ export const TherapistRegisterPage = () => {
   const [license, setLicense] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { signUp } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleSpecialtyToggle = (specialty) => {
@@ -57,15 +58,15 @@ export const TherapistRegisterPage = () => {
     setError(null);
 
     // Validation
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+    // if (password !== confirmPassword) {
+    //   setError("Passwords do not match");
+    //   return;
+    // }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
+    // if (password.length < 6) {
+    //   setError("Password must be at least 6 characters");
+    //   return;
+    // }
 
     if (specialties.length === 0) {
       setError("Please select at least one specialty");
@@ -80,11 +81,28 @@ export const TherapistRegisterPage = () => {
     setIsLoading(true);
 
     try {
-      // Register the therapist
-      await signUp(email, password, "therapist", displayName);
+      // Register the therapist with Firebase Auth
+      // const { user } = await signUp(email, password, "therapist", displayName);
 
-      // Additional therapist profile data will be added in the dashboard
-      navigate("/therapist-dashboard/profile");
+      // Create a document in the therapists collection
+      const therapistData = {
+        uid: user.uid,
+        email: user.email,
+        displayName,
+        bio,
+        specialties,
+        license,
+        accountType: "therapist",
+        isVerified: false, // Admin can verify later
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+
+      // Set the document with the user's UID as the document ID
+      await setDoc(doc(db, "users", user.uid), therapistData);
+
+      // Navigate to dashboard
+      navigate("/therapist/dashboard/profile");
     } catch (err) {
       setError(err.message || "Failed to create account");
     } finally {
@@ -119,9 +137,9 @@ export const TherapistRegisterPage = () => {
                   <Input
                     id="displayName"
                     placeholder="Dr. Jane Smith"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    required
+                    value={user.displayName}
+                    // onChange={(e) => setDisplayName(e.target.value)}
+                    disabled
                   />
                 </div>
 
@@ -131,32 +149,9 @@ export const TherapistRegisterPage = () => {
                     id="email"
                     type="email"
                     placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    minLength={6}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
+                    value={user.email}
+                    // onChange={(e) => setEmail(e.target.value)}
+                    disabled
                   />
                 </div>
               </div>
