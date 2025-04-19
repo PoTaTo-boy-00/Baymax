@@ -162,6 +162,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const currentuser = () => {
+    if (!firebaseInitialized) {
+      throw new Error("Firebase authentication is not initialized");
+    }
+    return user;
+  };
+
   const logout = async () => {
     if (!firebaseInitialized) {
       throw new Error("Firebase authentication is not initialized");
@@ -185,6 +192,7 @@ export const AuthProvider = ({ children }) => {
         signIn,
         signInAnon,
         logout,
+        currentuser,
         firebaseInitialized,
         SignupPage,
       }}
