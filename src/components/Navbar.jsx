@@ -37,7 +37,7 @@ const Navbar = () => {
             </Link>
           )}
           {user?.role === "patient" && (
-            <Link to="/appointments" className="text-sm font-medium hover:text-primary">
+            <Link to="/user/appointments" className="text-sm font-medium hover:text-primary">
               My Appointments
             </Link>
           )}
@@ -70,7 +70,7 @@ const Navbar = () => {
                     </Link>
                   )}
                   {user?.role === "patient" && (
-                    <Link to="/appointments" className="block px-4 py-2 hover:bg-gray-100">
+                    <Link to="/user/appointments" className="block px-4 py-2 hover:bg-gray-100">
                       My Appointments
                     </Link>
                   )}
