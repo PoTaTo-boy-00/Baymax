@@ -13,8 +13,8 @@ import { Profile } from "./pages/therapistDashboard/profile/Profile";
 import { PatientRequests } from "./pages/therapistDashboard/patientRequest/PatientRequest";
 import { TherapistMessages } from "./pages/therapistDashboard/message/TherapistMessages";
 import { TherapistChatPage } from "./pages/therapistDashboard/message/TherapistChatPage";
-import { GetTherapist } from "./pages/Dashboard-Therapist/GetTherapist";
-import { TherapistProfilePage } from "./pages/Dashboard-Therapist/Therapist";
+import { GetTherapist } from "./pages/TherapistPage/GetTherapist";
+import { TherapistProfilePage } from "./pages/TherapistPage/Therapist";
 import { TherapistRegisterPage } from "./pages/therapistDashboard/register/TherapistRegisterPage";
 
 function App() {

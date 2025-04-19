@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { CalendarClock } from "lucide-react";
 
-export default function BookingModal({ therapist, slot, onClose }) {
+export const BookingModal = ({ therapist, slot, onClose }) => {
   // const { user } = useAuth()
   //const router = useRouter()
   const [sessionType, setSessionType] = useState(
@@ -119,4 +119,4 @@ export default function BookingModal({ therapist, slot, onClose }) {
       </DialogContent>
     </Dialog>
   );
-}
+};
