@@ -17,9 +17,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { CalendarClock } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const BookingModal = ({ therapist, slot, onClose }) => {
-  // const { user } = useAuth()
+  const { user } = useAuth();
   //const router = useRouter()
   const [sessionType, setSessionType] = useState(
     therapist.sessionTypes?.[0] || "Video"
@@ -119,4 +120,4 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
       </DialogContent>
     </Dialog>
   );
-}
+};

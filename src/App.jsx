@@ -6,9 +6,9 @@ import Home from "./pages/User/Home";
 import UserDashboard from "./pages/User/UserDashboard";
 import UserSideTherapist from "./pages/userSideTherapist/UserSideTherapist";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
-import {TherapistDashboard} from "./pages/therapistDashboard/TherapistDashboard";
+import {TherapistDashboardPage} from "./pages/therapistDashboard/TherapistDashboard";
 import { SignupPage } from "./pages/signup/page";
-import { ChatPage } from "./pages/chat/therapistId/page";
+import { ChatPage } from "./pages/Chat/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
 import { PatientRequests } from "./pages/therapistDashboard/patientRequest/PatientRequest";
 import { TherapistMessages } from "./pages/therapistDashboard/message/TherapistMessages";
@@ -20,12 +20,12 @@ import Login from "./pages/login/login";
 import Navbar from "./components/Navbar";
 // import { UserAppointment } from "./pages/userSideTherapist/UserSideTherapist";
 import UserAppointment from "./pages/userAppointment/UserAppoinment";
-import TherapistAppointmentsPage from "./pages/therapistDashboard/therapistAppointment/TherapistAppointment";
+import {TherapistAppointmentsPage} from "./pages/therapistDashboard/therapistAppointment/TherapistAppointment";
 
 function App() {
   const ProtectedRoute = ({ children }) => {
     const { user } = useAuth();
-    return user.role === "therapist" ? children : <Link to="/login" />;
+    return user === "therapist" ? children : <Link to="/login" />;
   };
   return (
     <>
@@ -40,7 +40,7 @@ function App() {
             path="/therapist/dashboard"
             element={
               //<ProtectedRoute>
-                <TherapistDashboard />
+                <TherapistDashboardPage />
               //</ProtectedRoute>
             }
           />
@@ -130,6 +130,22 @@ function App() {
               //<ProtectedRoute>
               <SignupPage />
               //</ProtectedRoute>
+            }
+          />
+          <Route
+            path="/therapist/dashboard/messages/:patientId"
+            element={
+              // <ProtectedRoute>
+              <TherapistChatPage />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat/:therapistId"
+            element={
+              // <ProtectedRoute>
+              <ChatPage />
+              // </ProtectedRoute>
             }
           />
 

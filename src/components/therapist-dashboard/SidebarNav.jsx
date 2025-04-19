@@ -25,7 +25,7 @@ const navItems = [
   },
   {
     title: "Patient Requests",
-    href: "/patient-requests",
+    href: "/therapist/dashboard/patient-requests",
     icon: Bell,
   },
   {
@@ -40,12 +40,12 @@ const navItems = [
   },
   {
     title: "Messages",
-    href: "/dashboard/messages",
+    href: "/therapist/dashboard/messages",
     icon: MessageSquare,
   },
   {
     title: "Profile",
-    href: "/dashboard/profile",
+    href: "/therapist/dashboard/profile",
     icon: Settings,
   },
 ];
