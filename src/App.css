@@ -71,3 +71,9 @@
     border-color: hsl(var(--border)); /* Directly apply the custom property */
   }
 }
+
+/* Add these styles if they're not already present */
+[data-radix-popper-content-wrapper] {
+  position: fixed !important;
+  z-index: 50;
+}
