@@ -21,9 +21,11 @@ import { Calendar, MessageSquare, Users, Bell } from "lucide-react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import Navbar from "../../components/Navbar";
-import {SidebarNav}  from "../../components/therapist-dashboard/SidebarNav";
-const TherapistDashboard = () => {
+import Navbar from "@/components/Navbar";
+import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
+import { DashboardLayout } from "./Layout";
+
+export const TherapistDashboard = () => {
   const { user } = useAuth();
   const [pendingRequests, setPendingRequests] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
@@ -46,19 +48,10 @@ const TherapistDashboard = () => {
         );
 
         const requestsSnapshot = await getDocs(requestsQuery);
-        const requestsList = [];
-
-        requestsSnapshot.forEach((doc) => {
-          const data = doc.data();
-          requestsList.push({
-            id: doc.id,
-            patientName: data.patientName,
-            date: data.date,
-            time: data.time,
-            createdAt: data.createdAt,
-          });
-        });
-
+        const requestsList = requestsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
         setPendingRequests(requestsList);
 
         // Fetch upcoming appointments
@@ -74,46 +67,28 @@ const TherapistDashboard = () => {
         );
 
         const appointmentsSnapshot = await getDocs(appointmentsQuery);
-        const appointmentsList = [];
-
-        appointmentsSnapshot.forEach((doc) => {
-          const data = doc.data();
-          appointmentsList.push({
-            id: doc.id,
-            patientName: data.patientName,
-            date: data.date,
-            time: data.time,
-          });
-        });
-
+        const appointmentsList = appointmentsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
         setUpcomingAppointments(appointmentsList);
 
-        // Fetch patient count (unique patients who have appointments)
+        // Fetch patient count
         const patientsQuery = query(
           collection(db, "appointments"),
           where("therapistId", "==", user.uid)
         );
-
         const patientsSnapshot = await getDocs(patientsQuery);
-        const uniquePatients = new Set();
-
-        patientsSnapshot.forEach((doc) => {
-          const data = doc.data();
-          uniquePatients.add(data.patientId);
-        });
-
+        const uniquePatients = new Set(patientsSnapshot.docs.map(doc => doc.data().patientId));
         setPatientCount(uniquePatients.size);
 
-        // Fetch recent messages from all chats
+        // Fetch recent messages
         const chatsQuery = query(collection(db, "chats"), limit(10));
-
         const chatsSnapshot = await getDocs(chatsQuery);
-        const messagesList = [];
+        let messagesList = [];
 
         for (const chatDoc of chatsSnapshot.docs) {
           const chatId = chatDoc.id;
-
-          // Only process chats that involve the current therapist
           if (!chatId.includes(user.uid)) continue;
 
           const messagesQuery = query(
@@ -121,28 +96,23 @@ const TherapistDashboard = () => {
             orderBy("timestamp", "desc"),
             limit(5)
           );
-
           const messagesSnapshot = await getDocs(messagesQuery);
-
-          messagesSnapshot.forEach((doc) => {
-            const data = doc.data();
-
-            // Only include messages sent to the therapist
-            if (data.receiverId === user.uid) {
-              messagesList.push({
+          
+          messagesList = [
+            ...messagesList,
+            ...messagesSnapshot.docs
+              .map(doc => ({
                 id: doc.id,
-                senderName: data.senderName,
-                text: data.text,
-                timestamp: data.timestamp?.toDate() || new Date(),
-                read: data.read || false,
-              });
-            }
-          });
+                ...doc.data(),
+                timestamp: doc.data().timestamp?.toDate() || new Date()
+              }))
+              .filter(msg => msg.receiverId === user.uid)
+          ];
         }
 
-        // Sort by timestamp and limit to 5
-        messagesList.sort((a, b) => b.timestamp - a.timestamp);
-        setRecentMessages(messagesList.slice(0, 5));
+        setRecentMessages(messagesList
+          .sort((a, b) => b.timestamp - a.timestamp)
+          .slice(0, 5));
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -155,22 +125,24 @@ const TherapistDashboard = () => {
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <div className="flex justify-center py-12">
-          <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      <DashboardLayout>
+        <div className="space-y-6">
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <div className="flex justify-center py-12">
+            <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="space-y-6">
+    <DashboardLayout>
+      <div className="space-y-6 p-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
+        
+        {/* Stats Cards */}
         <div className="grid gap-6 md:grid-cols-4">
-        <SidebarNav />
           <Card>
             <CardHeader className="pb-2">
               <CardDescription>Patient Requests</CardDescription>
@@ -197,9 +169,7 @@ const TherapistDashboard = () => {
             </CardHeader>
             <CardContent className="flex items-center gap-4">
               <Calendar className="h-6 w-6 text-primary" />
-              <div className="text-3xl font-bold">
-                {upcomingAppointments.length}
-              </div>
+              <div className="text-3xl font-bold">{upcomingAppointments.length}</div>
             </CardContent>
           </Card>
 
@@ -210,121 +180,93 @@ const TherapistDashboard = () => {
             <CardContent className="flex items-center gap-4">
               <MessageSquare className="h-6 w-6 text-primary" />
               <div className="text-3xl font-bold">
-                {recentMessages.filter((msg) => !msg.read).length}
+                {recentMessages.filter(msg => !msg.read).length}
               </div>
             </CardContent>
           </Card>
         </div>
 
+        {/* Main Content */}
         <div className="grid gap-6 md:grid-cols-2">
+          {/* Patient Requests */}
           {pendingRequests.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle>New Patient Requests</CardTitle>
-                <CardDescription>
-                  Patients waiting for your approval
-                </CardDescription>
+                <CardDescription>Patients waiting for approval</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {pendingRequests.map((request) => (
-                    <div
-                      key={request.id}
-                      className="flex items-center justify-between"
-                    >
+                    <div key={request.id} className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <Avatar>
-                          <AvatarFallback>
-                            {request.patientName.charAt(0)}
-                          </AvatarFallback>
+                          <AvatarFallback>{request.patientName?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">{request.patientName}</p>
                           <p className="text-sm text-muted-foreground">
-                            {format(new Date(request.date), "MMM d")} at{" "}
-                            {request.time}
+                            {request.date && format(new Date(request.date), "MMM d")} at {request.time}
                           </p>
                         </div>
                       </div>
                       <Button variant="outline" size="sm" asChild>
-                        <Link to="/therapist-dashboard/patient-requests">
-                          View
-                        </Link>
+                        <Link to={`/patient-requests/${request.id}`}>View</Link>
                       </Button>
                     </div>
                   ))}
                   <Button className="w-full" variant="outline" asChild>
-                    <Link to="/therapist-dashboard/patient-requests">
-                      View All Requests
-                    </Link>
+                    <Link to="/patient-requests">View All Requests</Link>
                   </Button>
                 </div>
               </CardContent>
             </Card>
           )}
 
+          {/* Upcoming Appointments */}
           <Card>
             <CardHeader>
               <CardTitle>Upcoming Appointments</CardTitle>
-              <CardDescription>
-                Your scheduled sessions for the next few days
-              </CardDescription>
+              <CardDescription>Scheduled sessions</CardDescription>
             </CardHeader>
             <CardContent>
               {upcomingAppointments.length > 0 ? (
                 <div className="space-y-4">
                   {upcomingAppointments.map((appointment) => (
-                    <div
-                      key={appointment.id}
-                      className="flex items-center justify-between"
-                    >
+                    <div key={appointment.id} className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <Avatar>
-                          <AvatarFallback>
-                            {appointment.patientName.charAt(0)}
-                          </AvatarFallback>
+                          <AvatarFallback>{appointment.patientName?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium">
-                            {appointment.patientName}
-                          </p>
+                          <p className="font-medium">{appointment.patientName}</p>
                           <p className="text-sm text-muted-foreground">
-                            {format(new Date(appointment.date), "MMM d")} at{" "}
-                            {appointment.time}
+                            {appointment.date && format(new Date(appointment.date), "MMM d")} at {appointment.time}
                           </p>
                         </div>
                       </div>
                       <Button variant="outline" size="sm" asChild>
-                        <Link
-                          to={`/therapist-dashboard/appointments/${appointment.id}`}
-                        >
-                          View
-                        </Link>
+                        <Link to={`/appointments/${appointment.id}`}>View</Link>
                       </Button>
                     </div>
                   ))}
                   <Button className="w-full" variant="outline" asChild>
-                    <Link to="/therapist-dashboard/appointments">
-                      View All Appointments
-                    </Link>
+                    <Link to="/appointments">View All Appointments</Link>
                   </Button>
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <p className="text-muted-foreground">
-                    No upcoming appointments
-                  </p>
+                  <p className="text-muted-foreground">No upcoming appointments</p>
                 </div>
               )}
             </CardContent>
           </Card>
 
+          {/* Recent Messages */}
           <Card>
             <CardHeader>
               <CardTitle>Recent Messages</CardTitle>
-              <CardDescription>
-                Latest messages from your patients
-              </CardDescription>
+              <CardDescription>Latest from patients</CardDescription>
             </CardHeader>
             <CardContent>
               {recentMessages.length > 0 ? (
@@ -332,9 +274,7 @@ const TherapistDashboard = () => {
                   {recentMessages.map((message) => (
                     <div key={message.id} className="flex items-center gap-3">
                       <Avatar>
-                        <AvatarFallback>
-                          {message.senderName.charAt(0)}
-                        </AvatarFallback>
+                        <AvatarFallback>{message.senderName?.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
@@ -353,9 +293,7 @@ const TherapistDashboard = () => {
                     </div>
                   ))}
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/therapist-dashboard/messages">
-                      View All Messages
-                    </Link>
+                    <Link to="/messages">View All Messages</Link>
                   </Button>
                 </div>
               ) : (
@@ -367,8 +305,6 @@ const TherapistDashboard = () => {
           </Card>
         </div>
       </div>
-    </>
+    </DashboardLayout>
   );
 };
-
-export default TherapistDashboard;

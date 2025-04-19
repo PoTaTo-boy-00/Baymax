@@ -6,7 +6,7 @@ import Home from "./pages/User/Home";
 import UserDashboard from "./pages/User/UserDashboard";
 import UserSideTherapist from "./pages/userSideTherapist/UserSideTherapist";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
-import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
+import {TherapistDashboard} from "./pages/therapistDashboard/TherapistDashboard";
 import { SignupPage } from "./pages/signup/page";
 import { ChatPage } from "./pages/chat/therapistId/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";

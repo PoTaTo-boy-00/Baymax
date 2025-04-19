@@ -30,7 +30,7 @@ const navItems = [
   },
   {
     title: "Appointments",
-    href: "/dashboard/appointments",
+    href: "/therapist/appointments",
     icon: Calendar,
   },
   {
