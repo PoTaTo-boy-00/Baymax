@@ -44,7 +44,7 @@ export const ChatPage = () => {
         const partnerDoc = await getDoc(doc(db, "users", therapistId));
 
         if (!partnerDoc.exists()) {
-          navigate("/therapists");
+          navigate("/therapist");
           return;
         }
 

@@ -4,15 +4,15 @@ import { MoodSelector } from "@/components/MoodSelector";
 import { JournalEntry } from "@/components/JournalEntry";
 import { SentimentAnalysis } from "@/components/SentimentAnalysis";
 import { TherapistButton } from "@/components/TherapistButton";
-import { analyzeSentiment, logMoodEntry } from "@/lib/firebase";
+import { logMoodEntry } from "@/lib/firebase";
+import { analyzeWithGemini } from "@/lib/gemini";
 import { toast } from "@/components/ui/use-toast";
 
 const UserDashboard = () => {
   const [userId, setUserId] = useState(null);
   const [selectedMood, setSelectedMood] = useState(undefined);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [sentiment, setSentiment] = useState(null);
-  const [sentimentMessage, setSentimentMessage] = useState(null);
+  const [geminiResponse, setGeminiResponse] = useState(null);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem("baymax:userId");
@@ -44,12 +44,20 @@ const UserDashboard = () => {
 
     setIsAnalyzing(true);
     try {
-      const analysis = await analyzeSentiment(text);
-      setSentiment(analysis.sentiment);
-      setSentimentMessage(analysis.message);
+      // Call Gemini for analysis
+      const response = await analyzeWithGemini(text, selectedMood);
+      setGeminiResponse(response);
 
+      // Log to Firebase
       if (userId) {
-        await logMoodEntry(userId, selectedMood, text);
+        await logMoodEntry(
+          userId,
+          selectedMood,
+          text,
+          response.sentiment,
+          response.affirmation,
+          response.suggestion
+        );
       }
     } catch (error) {
       console.error("Error analyzing or logging:", error);
@@ -64,9 +72,8 @@ const UserDashboard = () => {
     }
   };
 
-  //   if (!userId) {
-  //     return <div>Loading...</div>;
-  //   }
+  // console.log(geminiResponse.affirmation);
+  // console.log(geminiResponse.suggestion);
 
   return (
     <div className="min-h-screen bg-fuchsia-100 p-4">
@@ -94,8 +101,14 @@ const UserDashboard = () => {
           </CardContent>
         </Card>
 
-        {sentiment && sentimentMessage && (
-          <SentimentAnalysis sentiment={sentiment} message={sentimentMessage} />
+        {geminiResponse && (
+          <SentimentAnalysis
+            sentiment={geminiResponse.sentiment}
+            analysis={geminiResponse.analysis}
+            support={geminiResponse.support}
+            affirmation={geminiResponse.affirmation}
+            suggestion={geminiResponse.suggestion}
+          />
         )}
       </div>
 
