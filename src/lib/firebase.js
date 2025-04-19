@@ -14,13 +14,21 @@ export const anonymousLogin = async () => {
   };
 };
 
-export const logMoodEntry = async (userId, mood, journal) => {
-  // In a real implementation, this would save to Firebase Firestore
-  console.log("Logging mood entry for user:", userId);
-  console.log("Mood:", mood, "Journal:", journal);
-  return { success: true };
+export const logMoodEntry = async (userId, mood, journal, sentiment) => {
+  try {
+    const docRef = await addDoc(collection(db, "journalEntries"), {
+      userId,
+      mood,
+      journal,
+      sentiment,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
 };
-
 export const analyzeSentiment = async (text) => {
   // In a real implementation, this would call a sentiment analysis API or Firebase Function
   console.log("Analyzing sentiment for:", text);
@@ -88,8 +96,6 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
-
-
 
 // Initialize Firebase only if config is valid
 const app = initializeApp(firebaseConfig);

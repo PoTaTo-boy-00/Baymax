@@ -11,11 +11,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
+import { forwardRef } from "react";
 
-export function TherapistButton() {
+export const TherapistButton = forwardRef((props, ref) => {
   const navigate = useNavigate();
+
   const handleSubmit = () => {
-    // Redirect to the therapist matching
     navigate("/therapist");
   };
 
@@ -23,8 +24,10 @@ export function TherapistButton() {
     <Dialog>
       <DialogTrigger asChild>
         <Button
+          ref={ref}
           className="rounded-full h-14 w-14 shadow-lg fixed bottom-6 right-6 p-0"
           aria-label="Find Therapists"
+          {...props}
         >
           <UserRound className="h-6 w-6" />
         </Button>
@@ -50,4 +53,6 @@ export function TherapistButton() {
       </DialogContent>
     </Dialog>
   );
-}
+});
+
+TherapistButton.displayName = "TherapistButton"; // Important for debugging
