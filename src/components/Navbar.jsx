@@ -28,9 +28,11 @@ const Navbar = () => {
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/get-therapist" className="text-sm font-medium hover:text-primary">
-            Find Therapists
-          </Link>
+          {user?.role === "patient" && (
+            <Link to="/get-therapist" className="text-sm font-medium hover:text-primary">
+              Find Therapists
+            </Link>
+          )}
           {user?.role === "therapist" && (
             <Link to="/therapist/dashboard" className="text-sm font-medium hover:text-primary">
               Dashboard
@@ -38,6 +40,11 @@ const Navbar = () => {
           )}
           {user?.role === "patient" && (
             <Link to="/user/appointments" className="text-sm font-medium hover:text-primary">
+              My Appointments
+            </Link>
+          )}
+          {user?.role === "therapist" && (
+            <Link to="/therapist/appointments" className="text-sm font-medium hover:text-primary">
               My Appointments
             </Link>
           )}
