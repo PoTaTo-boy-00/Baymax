@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { doc, setDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,16 +33,14 @@ const specialtiesList = [
 ];
 
 export const TherapistRegisterPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
   const [specialties, setSpecialties] = useState([]);
   const [license, setLicense] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
 
   const handleSpecialtyToggle = (specialty) => {
@@ -52,6 +50,29 @@ export const TherapistRegisterPage = () => {
       setSpecialties([...specialties, specialty]);
     }
   };
+
+  // Handle auth state changes
+  useEffect(() => {
+    if (!loading && !user) {
+      // If auth check is complete and no user exists
+      navigate("/login"); // Redirect to login
+      return;
+    }
+
+    if (user) {
+      setDisplayName(user.displayName || "");
+      setEmail(user.email || "");
+    }
+  }, [user, loading, navigate]);
+
+  // Show loading state while auth is being checked
+  if (loading || !user) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,10 +106,11 @@ export const TherapistRegisterPage = () => {
       // const { user } = await signUp(email, password, "therapist", displayName);
 
       // Create a document in the therapists collection
+      console.log(user);
       const therapistData = {
         uid: user.uid,
         email: user.email,
-        displayName,
+        displayName: user.displayName,
         bio,
         specialties,
         license,
@@ -135,9 +157,7 @@ export const TherapistRegisterPage = () => {
                 <div className="space-y-2">
                   <Label htmlFor="displayName">Full Name</Label>
                   <Input
-                    id="displayName"
-                    placeholder="Dr. Jane Smith"
-                    value={user.displayName}
+                    value={displayName}
                     // onChange={(e) => setDisplayName(e.target.value)}
                     disabled
                   />
@@ -146,10 +166,7 @@ export const TherapistRegisterPage = () => {
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={user.email}
+                    value={email}
                     // onChange={(e) => setEmail(e.target.value)}
                     disabled
                   />
@@ -224,7 +241,7 @@ export const TherapistRegisterPage = () => {
         <CardFooter className="flex justify-center">
           <div className="text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/login" className="text-primary hover:underline">
+            <Link to="/login" className="text-primary hover:underline">
               Log in
             </Link>
           </div>
