@@ -80,23 +80,16 @@ export const analyzeSentiment = async (text) => {
 };
 
 //Use environment variables for Firebase configuration
-// const firebaseConfig = {
-//   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-//   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-//   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-//   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-//   appId: import.meta.env.VITE_FIREBASE_APP_ID,
-// };
-
 const firebaseConfig = {
-  apiKey: "AIzaSyCMeP3kEttFnr87Ht1__1SCyVMAjbkLATg",
- authDomain: "hackbengl.firebaseapp.com",
- projectId: "hackbengl",
- storageBucket: "hackbengl.firebasestorage.app",
- messagingSenderId: "642327373322",
- appId: "1:642327373322:web:149fefeb134f1cd18f21f3"
-}
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+
 
 // Initialize Firebase only if config is valid
 const app = initializeApp(firebaseConfig);
