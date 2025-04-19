@@ -16,6 +16,7 @@ import { TherapistChatPage } from "./pages/therapistDashboard/message/TherapistC
 import { GetTherapist } from "./pages/TherapistPage/GetTherapist";
 import { TherapistProfilePage } from "./pages/TherapistPage/Therapist";
 import { TherapistRegisterPage } from "./pages/therapistDashboard/register/TherapistRegisterPage";
+import Login from "./pages/login/login";
 
 function App() {
   const ProtectedRoute = ({ children }) => {
@@ -93,6 +94,16 @@ function App() {
             // </ProtectedRoute>
           }
         />
+        <Route
+          path="/login"
+          element={
+            // <ProtectedRoute>
+            <Login />
+            // </ProtectedRoute>
+          }
+        />
+
+        
 
         {/* <Route path="/therapists/message/:patientId" element={
             <ProtectedRoute>

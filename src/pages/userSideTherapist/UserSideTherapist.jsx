@@ -5,6 +5,16 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-64px)]">
+      <div className="absolute top-4 right-4 flex gap-2">
+        <Link to="/login">
+          <Button size="sm" variant="outline">Login</Button>
+        </Link>
+        <Link to="/signup">
+          <Button size="sm" variant="outline">Sign Up</Button>
+        </Link>
+      </div>
+
+
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-b from-primary/10 to-background">
         <div className="container mx-auto px-4 text-center">
