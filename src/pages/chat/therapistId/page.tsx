@@ -27,7 +27,7 @@ interface Message {
     role: "therapist" | "patient";
   }
 
-export default function ChatPage() {
+export const ChatPage = () => {
 
     const therapistId  = useParams().therapistId as string
   const navigate = useNavigate();
