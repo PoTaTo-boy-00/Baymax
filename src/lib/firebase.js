@@ -79,7 +79,7 @@ export const analyzeSentiment = async (text) => {
   }
 };
 
-// Use environment variables for Firebase configuration
+//Use environment variables for Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,

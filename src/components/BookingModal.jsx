@@ -119,4 +119,4 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
       </DialogContent>
     </Dialog>
   );
-};
+}

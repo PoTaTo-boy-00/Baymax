@@ -1,6 +1,4 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Button } from "./components/ui/button";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
@@ -9,6 +7,8 @@ import UserDashboard from "./pages/User/UserDashboard";
 import UserSideTherapist from "./pages/userSideTherapist/UserSideTherapist";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
+import {SignupPage} from "./pages/signup/page";
+import {ChatPage} from "./pages/chat/therapistId/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
 import { PatientRequests } from "./pages/therapistDashboard/patientRequest/PatientRequest";
 import { TherapistMessages } from "./pages/therapistDashboard/message/TherapistMessages";
@@ -30,9 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<UserDashboard />} />
-        </Routes>
-
-        <Routes>
+        
           <Route path="/therapist" element={<UserSideTherapist />} />
 
           <Route
