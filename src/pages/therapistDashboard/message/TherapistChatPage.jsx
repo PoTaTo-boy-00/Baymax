@@ -25,6 +25,7 @@ import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useParams } from "react-router-dom";
+import Navbar from "../../../components/Navbar";
 
 export const TherapistChatPage = () => {
   const { patientId } = useParams();
@@ -170,7 +171,9 @@ export const TherapistChatPage = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <>
+      <Navbar />
+      <div className="space-y-6">
       <h1 className="text-3xl font-bold">Chat with {patient.displayName}</h1>
 
       <Tabs defaultValue="chat">
@@ -346,5 +349,6 @@ export const TherapistChatPage = () => {
         </TabsContent>
       </Tabs>
     </div>
+    </>
   );
 };

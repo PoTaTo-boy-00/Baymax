@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Loader2 } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import Navbar from "../../components/Navbar";
 
 export const  SignupPage=()=> {
 
@@ -82,7 +83,9 @@ export const  SignupPage=()=> {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 flex justify-center">
+    <>
+    <Navbar />
+      <div className="container mx-auto px-4 py-12 flex justify-center">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl">Create an account</CardTitle>
@@ -180,5 +183,6 @@ export const  SignupPage=()=> {
         </CardFooter>
       </Card>
     </div>
+    </>
   )
 }
