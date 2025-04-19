@@ -25,6 +25,7 @@ import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useParams } from "react-router-dom";
+import Navbar from "../../../components/Navbar";
 
 export const TherapistChatPage = () => {
   const { patientId } = useParams();

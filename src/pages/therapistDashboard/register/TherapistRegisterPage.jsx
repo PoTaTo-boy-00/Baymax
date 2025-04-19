@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { db } from "../../../lib/firebase";
+import Navbar from "../../../components/Navbar";
 
 const specialtiesList = [
   "Anxiety",

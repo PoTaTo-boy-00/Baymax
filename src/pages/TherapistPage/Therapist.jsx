@@ -25,6 +25,7 @@ import { QuestionSuggestions } from "@/components/QuestionSuggestion";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRouter } from "@tanstack/react-router";
+import  Navbar  from "../../components/Navbar";
 
 import { BookingModal } from "@/components/BookingModal";
 

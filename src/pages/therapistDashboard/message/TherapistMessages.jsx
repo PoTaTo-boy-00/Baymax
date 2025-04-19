@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import { MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
+import Navbar from "../../../components/Navbar";
 
 export const TherapistMessages = () => {
   const { user } = useAuth();
