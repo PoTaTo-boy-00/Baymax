@@ -36,81 +36,81 @@ function App() {
           <Route
             path="/therapist/dashboard"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
                 <TherapistDashboard />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/therapist/dashboard/profile"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
                 <Profile />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/therapist/dashboard/patient-requests"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
               <PatientRequests />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/therapist/dashboard/messages"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
               <TherapistMessages />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/therapist/dashboard/messages/:patientId"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
               <TherapistChatPage />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/get-therapist"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
               <GetTherapist />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/get-therapist/:id"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
               <TherapistProfilePage />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/signupTherapist"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
                 <TherapistRegisterPage />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/login"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
               <Login />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/signup"
             element={
-              // <ProtectedRoute>
+              //<ProtectedRoute>
               <SignupPage />
-              // </ProtectedRoute>
+              //</ProtectedRoute>
             }
           />
 
