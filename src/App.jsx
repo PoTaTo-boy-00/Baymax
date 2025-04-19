@@ -36,17 +36,17 @@ function App() {
           <Route
             path="/therapist/dashboard"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <TherapistDashboard />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
           <Route
             path="/therapist/dashboard/profile"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <Profile />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
           <Route
@@ -92,9 +92,9 @@ function App() {
           <Route
             path="/signupTherapist"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <TherapistRegisterPage />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
           <Route
