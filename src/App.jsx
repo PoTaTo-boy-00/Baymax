@@ -18,6 +18,9 @@ import { TherapistProfilePage } from "./pages/TherapistPage/Therapist";
 import { TherapistRegisterPage } from "./pages/therapistDashboard/register/TherapistRegisterPage";
 import Login from "./pages/login/login";
 import Navbar from "./components/Navbar";
+// import { UserAppointment } from "./pages/userSideTherapist/UserSideTherapist";
+import UserAppointment from "./pages/userAppointment/UserAppoinment";
+import TherapistAppointmentsPage from "./pages/therapistDashboard/therapistAppointment/TherapistAppointment";
 
 function App() {
   const ProtectedRoute = ({ children }) => {
@@ -62,6 +65,30 @@ function App() {
             element={
               // <ProtectedRoute>
               <TherapistMessages />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/therapist/dashboard/messages/:patientId"
+            element={
+              // <ProtectedRoute>
+              <TherapistChatPage />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user/appointments"
+            element={
+              // <ProtectedRoute>
+              <UserAppointment />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/therapist/appointments"
+            element={
+              // <ProtectedRoute>
+              <TherapistAppointmentsPage />
               // </ProtectedRoute>
             }
           />
