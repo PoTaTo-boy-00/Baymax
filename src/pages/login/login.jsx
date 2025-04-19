@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
+import Navbar from "../../components/Navbar";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -70,6 +71,8 @@ export default function LoginPage() {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="container mx-auto px-4 py-12 flex justify-center">
       <Card className="w-full max-w-md">
         <CardHeader>
@@ -156,5 +159,6 @@ export default function LoginPage() {
         </CardFooter>
       </Card>
     </div>
+    </>
   );
 }

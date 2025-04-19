@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import { MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
+import Navbar from "../../../components/Navbar";
 
 export const TherapistMessages = () => {
   const { user } = useAuth();
@@ -103,7 +104,9 @@ export const TherapistMessages = () => {
   //   }
 
   return (
-    <div className="space-y-6">
+    <>
+      <Navbar />
+      <div className="space-y-6">
       <h1 className="text-3xl font-bold">Messages</h1>
 
       <Card>
@@ -168,5 +171,6 @@ export const TherapistMessages = () => {
         </CardContent>
       </Card>
     </div>
+    </>
   );
 };

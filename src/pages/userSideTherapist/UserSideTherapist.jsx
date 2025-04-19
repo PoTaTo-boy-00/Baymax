@@ -10,8 +10,6 @@ export default function Home() {
     <>
       <Navbar />
       <div className="flex flex-col min-h-[calc(100vh-64px)]">
-        
-
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-b from-primary/10 to-background">
           <div className="container mx-auto px-4 text-center">

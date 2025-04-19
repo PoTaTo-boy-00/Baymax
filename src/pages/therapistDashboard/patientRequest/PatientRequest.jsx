@@ -25,6 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "../../../../contexts/AuthContext";
+import Navbar from "../../../components/Navbar";
 
 export const PatientRequests = () => {
   const { user } = useAuth();
@@ -294,6 +295,8 @@ export const PatientRequests = () => {
   //   }
 
   return (
+    <>
+    <Navbar />
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Patient Requests</h1>
 
@@ -347,5 +350,6 @@ export const PatientRequests = () => {
         </TabsContent>
       </Tabs>
     </div>
+    </>
   );
 };
