@@ -1,5 +1,3 @@
-// import React from 'react'
-
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -11,40 +9,27 @@ import {
   onSnapshot,
   addDoc,
   serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { useAuth } from "../../../contexts/AuthContext";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send } from "lucide-react";
 import { format } from "date-fns";
-
-interface Message {
-  id: string;
-  senderId: string;
-  senderName: string;
-  text: string;
-  timestamp: Date;
-}
-
-interface ChatPartner {
-  id: string;
-  displayName: string;
-  photoURL?: string;
-  role: "therapist" | "patient";
-}
+import { db } from "../../lib/firebase";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export const ChatPage = () => {
-  const therapistId = useParams().therapistId as string;
+  const { therapistId } = useParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const [chatPartner, setChatPartner] = useState<ChatPartner | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatPartner, setChatPartner] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (authLoading) return;
@@ -56,9 +41,7 @@ export const ChatPage = () => {
 
     const fetchChatPartner = async () => {
       try {
-        const partnerDoc = await getDoc(
-          doc(db, "users", therapistId as string)
-        );
+        const partnerDoc = await getDoc(doc(db, "users", therapistId));
 
         if (!partnerDoc.exists()) {
           navigate("/therapists");
@@ -82,15 +65,27 @@ export const ChatPage = () => {
     fetchChatPartner();
   }, [therapistId, navigate, user, authLoading]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
     if (!user || !chatPartner) return;
 
-    // Create a unique chat ID based on the two user IDs
     const chatId = [user.uid, chatPartner.id].sort().join("_");
+
+    const createChatDocument = async () => {
+      try {
+        await setDoc(
+          doc(db, "chats", chatId),
+          {
+            participants: [user.uid, chatPartner.id],
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true }
+        );
+      } catch (error) {
+        console.error("Error creating chat document:", error);
+      }
+    };
+
+    createChatDocument();
 
     const messagesQuery = query(
       collection(db, "chats", chatId, "messages"),
@@ -98,7 +93,7 @@ export const ChatPage = () => {
     );
 
     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-      const messagesList: Message[] = [];
+      const messagesList = [];
       snapshot.forEach((doc) => {
         const data = doc.data();
         messagesList.push({
@@ -115,31 +110,38 @@ export const ChatPage = () => {
     });
 
     return () => unsubscribe();
-  }, [user, chatPartner, messages, scrollToBottom]);
+  }, [user, chatPartner]);
 
-  const sendMessage = async (e: React.FormEvent) => {
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const sendMessage = async (e) => {
     e.preventDefault();
 
-    if (
-      !newMessage.trim() ||
-      !user ||
-      !chatPartner ||
-      newMessage.length > 500
-    ) {
-      setError("Message cannot be empty or exceed 500 characters.");
-      return;
-    }
+    if (!newMessage.trim() || !user || !chatPartner) return;
 
-    // Create a unique chat ID based on the two user IDs
     const chatId = [user.uid, chatPartner.id].sort().join("_");
 
     try {
+      await setDoc(
+        doc(db, "chats", chatId),
+        {
+          participants: [user.uid, chatPartner.id],
+          lastMessage: newMessage,
+          lastMessageTime: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+
       await addDoc(collection(db, "chats", chatId, "messages"), {
         senderId: user.uid,
         senderName: user.displayName || user.email,
         receiverId: chatPartner.id,
         text: newMessage,
         timestamp: serverTimestamp(),
+        read: false,
       });
 
       setNewMessage("");
@@ -248,7 +250,3 @@ export const ChatPage = () => {
     </div>
   );
 };
-
-function setError(arg0: string) {
-  throw new Error("Function not implemented.");
-}

@@ -1,6 +1,5 @@
-"use client";
-
 import { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import {
   doc,
   getDoc,
@@ -13,9 +12,8 @@ import {
   updateDoc,
   where,
   getDocs,
+  setDoc,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -23,9 +21,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send, FileText, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { db } from "../../../lib/firebase";
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useParams } from "react-router-dom";
-import Navbar from "../../../components/Navbar";
 
 export const TherapistChatPage = () => {
   const { patientId } = useParams();
@@ -37,7 +34,6 @@ export const TherapistChatPage = () => {
   const [appointments, setAppointments] = useState([]);
   const messagesEndRef = useRef(null);
 
-  console.log(patientId);
   useEffect(() => {
     if (!user) return;
 
@@ -55,6 +51,16 @@ export const TherapistChatPage = () => {
 
         // Create a unique chat ID based on the two user IDs
         const chatId = [user.uid, patientId].sort().join("_");
+
+        // Ensure the chat document exists
+        await setDoc(
+          doc(db, "chats", chatId),
+          {
+            participants: [user.uid, patientId],
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true }
+        );
 
         // Listen for messages
         const messagesQuery = query(
@@ -90,8 +96,7 @@ export const TherapistChatPage = () => {
         const appointmentsQuery = query(
           collection(db, "appointments"),
           where("therapistId", "==", user.uid),
-          where("patientId", "==", patientId),
-          orderBy("date", "desc")
+          where("patientId", "==", patientId)
         );
 
         const appointmentsSnapshot = await getDocs(appointmentsQuery);
@@ -107,6 +112,14 @@ export const TherapistChatPage = () => {
             notes: data.notes,
             sessionType: data.sessionType,
           });
+        });
+
+        // Sort appointments by date
+        appointmentsList.sort((a, b) => {
+          if (a.date !== b.date) {
+            return a.date.localeCompare(b.date);
+          }
+          return a.time.localeCompare(b.time);
         });
 
         setAppointments(appointmentsList);
@@ -136,6 +149,19 @@ export const TherapistChatPage = () => {
     const chatId = [user.uid, patientId].sort().join("_");
 
     try {
+      // Update the main chat document with latest timestamp
+      await setDoc(
+        doc(db, "chats", chatId),
+        {
+          participants: [user.uid, patientId],
+          lastMessage: newMessage,
+          lastMessageTime: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+
+      // Add the message to the messages subcollection
       await addDoc(collection(db, "chats", chatId, "messages"), {
         senderId: user.uid,
         senderName: user.displayName || user.email,
@@ -151,13 +177,13 @@ export const TherapistChatPage = () => {
     }
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex justify-center items-center min-h-[calc(100vh-64px)]">
-  //       <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[calc(100vh-64px)]">
+        <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      </div>
+    );
+  }
 
   if (!patient) {
     return (
@@ -171,9 +197,7 @@ export const TherapistChatPage = () => {
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="space-y-6">
+    <div className="space-y-6">
       <h1 className="text-3xl font-bold">Chat with {patient.displayName}</h1>
 
       <Tabs defaultValue="chat">
@@ -349,6 +373,5 @@ export const TherapistChatPage = () => {
         </TabsContent>
       </Tabs>
     </div>
-    </>
   );
 };

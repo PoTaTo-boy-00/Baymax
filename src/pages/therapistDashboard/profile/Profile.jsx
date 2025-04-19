@@ -184,271 +184,273 @@ export const Profile = () => {
     }
   };
 
-  //   if (loading) {
-  //     return (
-  //       <div className="flex justify-center items-center min-h-[calc(100vh-64px)]">
-  //         <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-  //       </div>
-  //     );
-  //   }
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[calc(100vh-64px)]">
+        <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      </div>
+    );
+  }
 
-  return (-
+  return (
     <>
-    <Navbar />
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Profile Settings</h1>
+      <Navbar />
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Profile Settings</h1>
 
-      {error && (
-        <Alert variant="destructive" className="mb-6">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-      <Tabs defaultValue="basic">
-        <TabsList className="mb-6">
-          <TabsTrigger value="basic">Basic Information</TabsTrigger>
-          <TabsTrigger value="professional">Professional Details</TabsTrigger>
-          <TabsTrigger value="sessions">Session Settings</TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="basic">
+          <TabsList className="mb-6">
+            <TabsTrigger value="basic">Basic Information</TabsTrigger>
+            <TabsTrigger value="professional">Professional Details</TabsTrigger>
+            <TabsTrigger value="sessions">Session Settings</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="basic">
-          <Card>
-            <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
-              <CardDescription>
-                Update your personal information and profile photo
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6">
-                <div className="relative">
-                  <Avatar className="h-24 w-24">
-                    <AvatarImage
-                      src={photoPreview || undefined}
-                      alt={displayName}
+          <TabsContent value="basic">
+            <Card>
+              <CardHeader>
+                <CardTitle>Basic Information</CardTitle>
+                <CardDescription>
+                  Update your personal information and profile photo
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6">
+                  <div className="relative">
+                    <Avatar className="h-24 w-24">
+                      <AvatarImage
+                        src={photoPreview || undefined}
+                        alt={displayName}
+                      />
+                      <AvatarFallback className="text-3xl">
+                        {displayName.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <label
+                      htmlFor="photo-upload"
+                      className="absolute bottom-0 right-0 p-1 rounded-full bg-primary text-primary-foreground cursor-pointer"
+                    >
+                      <Camera className="h-4 w-4" />
+                      <span className="sr-only">Upload photo</span>
+                    </label>
+                    <Input
+                      id="photo-upload"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handlePhotoChange}
                     />
-                    <AvatarFallback className="text-3xl">
-                      {displayName.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <label
-                    htmlFor="photo-upload"
-                    className="absolute bottom-0 right-0 p-1 rounded-full bg-primary text-primary-foreground cursor-pointer"
+                  </div>
+
+                  <div className="space-y-4 flex-1">
+                    <div className="space-y-2">
+                      <Label htmlFor="displayName">Full Name</Label>
+                      <Input
+                        id="displayName"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        placeholder="Dr. Jane Smith"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="location">Location</Label>
+                      <Input
+                        id="location"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        placeholder="San Francisco, CA"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    placeholder="Write a brief introduction about yourself..."
+                    rows={5}
+                  />
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button onClick={saveProfile} disabled={saving}>
+                  {saving ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="professional">
+            <Card>
+              <CardHeader>
+                <CardTitle>Professional Details</CardTitle>
+                <CardDescription>
+                  Share your expertise, education, and approach to therapy
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <Label>Specialties</Label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {specialtiesList.map((specialty) => (
+                      <div
+                        key={specialty}
+                        className="flex items-center space-x-2"
+                      >
+                        <Checkbox
+                          id={`specialty-${specialty}`}
+                          checked={specialties.includes(specialty)}
+                          onCheckedChange={() =>
+                            handleSpecialtyToggle(specialty)
+                          }
+                        />
+                        <Label htmlFor={`specialty-${specialty}`}>
+                          {specialty}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Education & Credentials</Label>
+                  {education.map((edu, index) => (
+                    <div key={index} className="flex gap-2 items-center">
+                      <Input
+                        value={edu}
+                        onChange={(e) =>
+                          handleEducationChange(index, e.target.value)
+                        }
+                        placeholder={`Degree, Institution (e.g., Ph.D. in Psychology, Stanford University)`}
+                        className="flex-1"
+                      />
+                      {education.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeEducationField(index)}
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addEducationField}
                   >
-                    <Camera className="h-4 w-4" />
-                    <span className="sr-only">Upload photo</span>
-                  </label>
-                  <Input
-                    id="photo-upload"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handlePhotoChange}
+                    Add Education
+                  </Button>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="experience">Experience</Label>
+                  <Textarea
+                    id="experience"
+                    value={experience}
+                    onChange={(e) => setExperience(e.target.value)}
+                    placeholder="Describe your professional experience..."
+                    rows={3}
                   />
                 </div>
 
-                <div className="space-y-4 flex-1">
-                  <div className="space-y-2">
-                    <Label htmlFor="displayName">Full Name</Label>
-                    <Input
-                      id="displayName"
-                      value={displayName}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                      placeholder="Dr. Jane Smith"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
-                    <Input
-                      id="location"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      placeholder="San Francisco, CA"
-                    />
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="approach">Therapeutic Approach</Label>
+                  <Textarea
+                    id="approach"
+                    value={approach}
+                    onChange={(e) => setApproach(e.target.value)}
+                    placeholder="Describe your approach to therapy..."
+                    rows={3}
+                  />
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="bio">Bio</Label>
-                <Textarea
-                  id="bio"
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  placeholder="Write a brief introduction about yourself..."
-                  rows={5}
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-end">
-              <Button onClick={saveProfile} disabled={saving}>
-                {saving ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  "Save Changes"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="professional">
-          <Card>
-            <CardHeader>
-              <CardTitle>Professional Details</CardTitle>
-              <CardDescription>
-                Share your expertise, education, and approach to therapy
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label>Specialties</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {specialtiesList.map((specialty) => (
-                    <div
-                      key={specialty}
-                      className="flex items-center space-x-2"
-                    >
-                      <Checkbox
-                        id={`specialty-${specialty}`}
-                        checked={specialties.includes(specialty)}
-                        onCheckedChange={() => handleSpecialtyToggle(specialty)}
-                      />
-                      <Label htmlFor={`specialty-${specialty}`}>
-                        {specialty}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Education & Credentials</Label>
-                {education.map((edu, index) => (
-                  <div key={index} className="flex gap-2 items-center">
-                    <Input
-                      value={edu}
-                      onChange={(e) =>
-                        handleEducationChange(index, e.target.value)
-                      }
-                      placeholder={`Degree, Institution (e.g., Ph.D. in Psychology, Stanford University)`}
-                      className="flex-1"
-                    />
-                    {education.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeEducationField(index)}
-                      >
-                        Remove
-                      </Button>
-                    )}
-                  </div>
-                ))}
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={addEducationField}
-                >
-                  Add Education
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button onClick={saveProfile} disabled={saving}>
+                  {saving ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
                 </Button>
-              </div>
+              </CardFooter>
+            </Card>
+          </TabsContent>
 
-              <div className="space-y-2">
-                <Label htmlFor="experience">Experience</Label>
-                <Textarea
-                  id="experience"
-                  value={experience}
-                  onChange={(e) => setExperience(e.target.value)}
-                  placeholder="Describe your professional experience..."
-                  rows={3}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="approach">Therapeutic Approach</Label>
-                <Textarea
-                  id="approach"
-                  value={approach}
-                  onChange={(e) => setApproach(e.target.value)}
-                  placeholder="Describe your approach to therapy..."
-                  rows={3}
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-end">
-              <Button onClick={saveProfile} disabled={saving}>
-                {saving ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  "Save Changes"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="sessions">
-          <Card>
-            <CardHeader>
-              <CardTitle>Session Settings</CardTitle>
-              <CardDescription>
-                Configure your session types and pricing
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label>Session Types</Label>
-                <div className="grid grid-cols-2 gap-2">
-                  {sessionTypesList.map((type) => (
-                    <div key={type} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={`session-${type}`}
-                        checked={sessionTypes.includes(type)}
-                        onCheckedChange={() => handleSessionTypeToggle(type)}
-                      />
-                      <Label htmlFor={`session-${type}`}>{type}</Label>
-                    </div>
-                  ))}
+          <TabsContent value="sessions">
+            <Card>
+              <CardHeader>
+                <CardTitle>Session Settings</CardTitle>
+                <CardDescription>
+                  Configure your session types and pricing
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <Label>Session Types</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {sessionTypesList.map((type) => (
+                      <div key={type} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`session-${type}`}
+                          checked={sessionTypes.includes(type)}
+                          onCheckedChange={() => handleSessionTypeToggle(type)}
+                        />
+                        <Label htmlFor={`session-${type}`}>{type}</Label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="sessionFee">Session Fee</Label>
-                <Input
-                  id="sessionFee"
-                  value={sessionFee}
-                  onChange={(e) => setSessionFee(e.target.value)}
-                  placeholder="$150 per session"
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-end">
-              <Button onClick={saveProfile} disabled={saving}>
-                {saving ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  "Save Changes"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sessionFee">Session Fee</Label>
+                  <Input
+                    id="sessionFee"
+                    value={sessionFee}
+                    onChange={(e) => setSessionFee(e.target.value)}
+                    placeholder="$150 per session"
+                  />
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button onClick={saveProfile} disabled={saving}>
+                  {saving ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </>
   );
 };

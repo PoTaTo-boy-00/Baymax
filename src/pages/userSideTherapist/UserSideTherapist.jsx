@@ -3,6 +3,7 @@ import { ArrowRight, Calendar, MessageSquare, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useAuth } from "../../../contexts/AuthContext";
+import { PatientRequests } from "../therapistDashboard/patientRequest/PatientRequest";
 
 export default function Home() {
   const { user } = useAuth();

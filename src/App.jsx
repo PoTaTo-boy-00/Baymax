@@ -36,9 +36,9 @@ function App() {
           <Route
             path="/therapist/dashboard"
             element={
-              <ProtectedRoute>
-                <TherapistDashboard />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <TherapistDashboard />
+              // </ProtectedRoute>
             }
           />
           <Route
@@ -66,14 +66,6 @@ function App() {
             }
           />
           <Route
-            path="/therapist/dashboard/messages/:therapistId"
-            element={
-              // <ProtectedRoute>
-              <TherapistChatPage />
-              // </ProtectedRoute>
-            }
-          />
-          <Route
             path="/get-therapist"
             element={
               // <ProtectedRoute>
@@ -92,9 +84,9 @@ function App() {
           <Route
             path="/signupTherapist"
             element={
-              <ProtectedRoute>
-                <TherapistRegisterPage />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <TherapistRegisterPage />
+              // </ProtectedRoute>
             }
           />
           <Route
@@ -110,6 +102,14 @@ function App() {
             element={
               // <ProtectedRoute>
               <SignupPage />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/therapist/dashboard/messages/:patientId"
+            element={
+              // <ProtectedRoute>
+              <TherapistChatPage />
               // </ProtectedRoute>
             }
           />
