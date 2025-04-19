@@ -2,8 +2,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, MessageSquare, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Home() {
+  const { user } = useAuth();
   return (
     <>
       <Navbar />
@@ -38,11 +40,19 @@ export default function Home() {
                   Find a Therapist <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/signupTherapist">
-                <Button size="lg" variant="outline">
-                  Join as a Therapist
-                </Button>
-              </Link>
+              {user && user.role === "therapist" ? (
+                <Link to="/therapist/dashboard">
+                  <Button size="lg" variant="outline">
+                    Go to Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/login">
+                  <Button size="lg" variant="outline">
+                    Login as a Therapist
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </section>
