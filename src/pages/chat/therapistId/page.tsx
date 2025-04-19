@@ -130,7 +130,7 @@ export const ChatPage = () => {
     }
   }
 
-  if (loading || !chatPartner) {
+  /*if (loading || !chatPartner) {
     return (
       <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[calc(100vh-64px)]">
         <Card className="w-full max-w-3xl">
@@ -142,7 +142,7 @@ export const ChatPage = () => {
         </Card>
       </div>
     )
-  }
+  }*/
 
   return (
     <div className="container mx-auto px-4 py-8">
