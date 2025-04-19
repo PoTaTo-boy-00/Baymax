@@ -22,6 +22,7 @@ import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import Navbar from "../../components/Navbar";
+import {SidebarNav}  from "../../components/therapist-dashboard/SidebarNav";
 const TherapistDashboard = () => {
   const { user } = useAuth();
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -168,8 +169,8 @@ const TherapistDashboard = () => {
       <Navbar />
       <div className="space-y-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-
         <div className="grid gap-6 md:grid-cols-4">
+        <SidebarNav />
           <Card>
             <CardHeader className="pb-2">
               <CardDescription>Patient Requests</CardDescription>
