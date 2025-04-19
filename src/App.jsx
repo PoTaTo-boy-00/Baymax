@@ -8,7 +8,7 @@ import UserSideTherapist from "./pages/userSideTherapist/UserSideTherapist";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
 import { SignupPage } from "./pages/signup/page";
-import { ChatPage } from "./pages/chat/therapistId/page";
+import { ChatPage } from "./pages/Chat/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
 import { PatientRequests } from "./pages/therapistDashboard/patientRequest/PatientRequest";
 import { TherapistMessages } from "./pages/therapistDashboard/message/TherapistMessages";
@@ -22,7 +22,7 @@ import Navbar from "./components/Navbar";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const { user } = useAuth();
-    return user.role === "therapist" ? children : <Link to="/login" />;
+    return user === "therapist" ? children : <Link to="/login" />;
   };
   return (
     <>
@@ -44,9 +44,9 @@ function App() {
           <Route
             path="/therapist/dashboard/profile"
             element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <Profile />
+              // </ProtectedRoute>
             }
           />
           <Route
@@ -66,7 +66,7 @@ function App() {
             }
           />
           <Route
-            path="/therapist/dashboard/messages/:patientId"
+            path="/therapist/dashboard/messages/:therapistId"
             element={
               // <ProtectedRoute>
               <TherapistChatPage />
@@ -110,6 +110,14 @@ function App() {
             element={
               // <ProtectedRoute>
               <SignupPage />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat/:therapistId"
+            element={
+              // <ProtectedRoute>
+              <ChatPage />
               // </ProtectedRoute>
             }
           />
