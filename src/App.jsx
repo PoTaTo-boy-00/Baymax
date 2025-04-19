@@ -9,7 +9,7 @@ import UserDashboard from "./pages/User/UserDashboard";
 import UserSideTherapist from "./pages/userSideTherapist/UserSideTherapist";
 import { AuthProvider } from "../contexts/AuthContext";
 import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
-
+import SignupPage from "./pages/signup/page";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const { user } = useAuth();
@@ -21,6 +21,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/therapists" element={<UserSideTherapist />} />
+        {/* <Route path="/login" element={<LoginPage />} /> */}
+        <Route path="/signup" element={<SignupPage />} />
         <Route
           path="/therapists/dashboard"
           element={

@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
+import SignupPage from "../src/pages/signup/page";
 
 const AuthContext = createContext(null);
 
@@ -185,6 +186,7 @@ export const AuthProvider = ({ children }) => {
         signInAnon,
         logout,
         firebaseInitialized,
+        SignupPage,
       }}
     >
       {children}
