@@ -294,6 +294,8 @@ export const PatientRequests = () => {
   //   }
 
   return (
+    <>
+    <Navbar />
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Patient Requests</h1>
 
@@ -347,5 +349,6 @@ export const PatientRequests = () => {
         </TabsContent>
       </Tabs>
     </div>
+    </>
   );
 };

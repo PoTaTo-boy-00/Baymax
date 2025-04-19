@@ -133,6 +133,8 @@ export const TherapistRegisterPage = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="container mx-auto px-4 py-12 flex justify-center">
       <Card className="w-full max-w-2xl">
         <CardHeader>
@@ -248,5 +250,6 @@ export const TherapistRegisterPage = () => {
         </CardFooter>
       </Card>
     </div>
+    </>
   );
 };
