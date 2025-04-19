@@ -47,11 +47,7 @@ export default function Home() {
                   </Button>
                 </Link>
               ) : (
-                <Link to="/login">
-                  <Button size="lg" variant="outline">
-                    Login as a Therapist
-                  </Button>
-                </Link>
+                <></>
               )}
             </div>
           </div>
