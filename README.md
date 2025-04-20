@@ -2,7 +2,7 @@
 
 A privacy-focused web app for anonymous mental health tracking, therapist matching, and AI-powered support.
 
-![App Preview](https://asset.cloudinary.com/dd3wlco6o/00aeb7033283b169005f0fd4e27de345). <!-- Replace with actual screenshot -->
+![App Preview](https://res.cloudinary.com/dd3wlco6o/image/upload/v1745133035/Screenshot_2025-04-20_123840_uuddim.png)
 
 ## Features ✨
 
