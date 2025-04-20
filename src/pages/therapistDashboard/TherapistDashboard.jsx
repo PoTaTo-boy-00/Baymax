@@ -241,15 +241,15 @@ export const TherapistDashboardPage = () => {
                         </p>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm" asChild>
-                      <Link to="/therapist-dashboard/patient-requests">
+                    {/* <Button variant="outline" size="sm" asChild>
+                      <Link to="/therapist/dashboard/patient-requests">
                         View
                       </Link>
-                    </Button>
+                    </Button> */}
                   </div>
                 ))}
                 <Button className="w-full" variant="outline" asChild>
-                  <Link to="/therapist-dashboard/patient-requests">
+                  <Link to="/therapist/dashboard/patient-requests">
                     View All Requests
                   </Link>
                 </Button>
@@ -287,17 +287,15 @@ export const TherapistDashboardPage = () => {
                         </p>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm" asChild>
-                      <Link
-                        to={`/therapist-dashboard/appointments/${appointment.id}`}
-                      >
+                    {/* <Button variant="outline" size="sm" asChild>
+                      <Link to={`/therapist/appointments/${appointment.id}`}>
                         View
                       </Link>
-                    </Button>
+                    </Button> */}
                   </div>
                 ))}
                 <Button className="w-full" variant="outline" asChild>
-                  <Link to="/therapist-dashboard/appointments">
+                  <Link to="/therapist/appointments">
                     View All Appointments
                   </Link>
                 </Button>
@@ -346,7 +344,7 @@ export const TherapistDashboardPage = () => {
                   </div>
                 ))}
                 <Button variant="outline" className="w-full" asChild>
-                  <Link to="/therapist-dashboard/messages">
+                  <Link to="/therapist/dashboard/messages">
                     View All Messages
                   </Link>
                 </Button>
@@ -359,9 +357,6 @@ export const TherapistDashboardPage = () => {
           </CardContent>
         </Card>
       </div>
-      {/* <PatientRequests /> */}
-      <TherapistMessages />
-      {/* <TherapistChatPage /> */}
     </div>
     </DashboardLayout>
   );

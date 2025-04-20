@@ -58,7 +58,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import {DashboardLayout} from "../Layout";
 import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
 
-export const TherapistAppointmentsPage = () => {
+export const Appointments = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
@@ -780,4 +780,4 @@ export const TherapistAppointmentsPage = () => {
       </div>
     </DashboardLayout>
   );
-}
+};
