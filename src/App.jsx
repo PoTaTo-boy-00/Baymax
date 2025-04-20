@@ -6,7 +6,7 @@ import Home from "./pages/User/Home";
 import UserDashboard from "./pages/User/UserDashboard";
 // import UserSideTherapist from "./pages/BaymaxLanding/BaymaxLanding";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
-import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
+// import {TherapistDashboard} from "./pages/therapistDashboard/TherapistDashboard";
 // import { SignupPage } from "./pages/signup/page";
 import { Chat } from "./pages/Chat/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
@@ -26,6 +26,9 @@ import { Lannding } from "./pages/Landing/Landing";
 
 import { Signup } from "./pages/Signup/Signup";
 import { Login } from "./pages/Login/UserLogin";
+import { TherapistDashboard } from "./pages/therapistDashboard/TherapistDashboard";
+import { VideoCallRoom } from "./pages/videoCall/VideoCallRoom";
+import { VideoCall } from "./pages/videoCall/VideoCall";
 
 function App() {
   return (
@@ -79,6 +82,12 @@ function App() {
           />
 
           <Route path="/chat/:therapistId" element={<Chat />} />
+
+          {/* vdo call
+           */}
+
+          <Route path="/video-call/:callId" element={<VideoCallRoom />} />
+          <Route path="/video-call" element={<VideoCall />} />
         </Routes>
       </BrowserRouter>
     </>

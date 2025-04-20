@@ -11,6 +11,7 @@ const Navbar = () => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
+    console.log(user);
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
