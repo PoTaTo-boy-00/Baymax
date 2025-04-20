@@ -8,7 +8,6 @@ import {
   limit,
 } from "firebase/firestore";
 
-// import { useAuth } from "../../../contexts/AuthContext";
 import {
   Card,
   CardContent,
