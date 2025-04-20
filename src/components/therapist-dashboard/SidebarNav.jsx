@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { SidebarProvider } from "../ui/sidebar";
+import Navbar from "../Navbar";
 
 const navItems = [
   {
@@ -56,32 +57,37 @@ export function SidebarNav() {
   //   const pathname = currentPath.split("/").slice(0, 3).join("/");
 
   return (
-    <SidebarProvider>
-      <SidebarGroup>
-        <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {navItems.map((item) => {
-              const isActive = currentPath.startsWith(item.href);
+    <>
+      <SidebarProvider>
+        <SidebarGroup>
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => {
+                const isActive = currentPath.startsWith(item.href);
 
-              return (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive}
-                    aria-current={isActive ? "page" : undefined}
-                  >
-                    <Link to={item.href}>
-                      <item.icon className="mr-2 h-4 w-4" aria-hidden="true" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              );
-            })}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    </SidebarProvider>
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      <Link to={item.href}>
+                        <item.icon
+                          className="mr-2 h-4 w-4"
+                          aria-hidden="true"
+                        />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarProvider>
+    </>
   );
 }
