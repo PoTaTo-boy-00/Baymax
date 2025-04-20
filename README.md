@@ -65,21 +65,21 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
    ```
 ### Tech Stack 🔧
 -Frontend
-    React + Vite
+   React + Vite
 
-    Tailwind CSS
+   Tailwind CSS
 
-    Firebase SDK
+   Firebase SDK
 
 -Backend
-    Firebase Firestore
+   Firebase Firestore
 
-    Firebase Authentication
+   Firebase Authentication
 
 -AI
-    Gemini API
+   Gemini API
 
-    Sentiment Analysis
+   Sentiment Analysis
 
 ### Project Structure 📂
   src/
@@ -109,3 +109,6 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
   Push to the branch
 
   Create a Pull Request
+
+### License 📜
+
