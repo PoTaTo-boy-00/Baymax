@@ -55,7 +55,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "../../../../contexts/AuthContext";
-import Navbar from "../../../components/Navbar";
+import {DashboardLayout} from "../Layout";
+import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
 
 export const Appointments = () => {
   const { user, loading: authLoading } = useAuth();
@@ -67,7 +68,7 @@ export const Appointments = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [cancelLoading, setCancelLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [view, setView] = useState("list"); // "list" or "calendar"
+  const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentWeek, setCurrentWeek] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 })
@@ -95,27 +96,13 @@ export const Appointments = () => {
         );
 
         const snapshot = await getDocs(appointmentsQuery);
-        const appointmentsList = [];
-
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          appointmentsList.push({
-            id: doc.id,
-            patientId: data.patientId,
-            patientName: data.patientName,
-            date: data.date,
-            time: data.time,
-            sessionType: data.sessionType,
-            notes: data.notes,
-            status: data.status,
-            createdAt: data.createdAt,
-          });
-        });
+        const appointmentsList = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
 
         appointmentsList.sort((a, b) => {
-          if (a.date !== b.date) {
-            return a.date.localeCompare(b.date);
-          }
+          if (a.date !== b.date) return a.date.localeCompare(b.date);
           return a.time.localeCompare(b.time);
         });
 
@@ -194,7 +181,6 @@ export const Appointments = () => {
     if (status === "rejected") return "destructive";
     if (status === "cancelled") return "destructive";
     if (status === "completed") return "secondary";
-
     return isPastAppointment ? "secondary" : "success";
   };
 
@@ -207,7 +193,6 @@ export const Appointments = () => {
     if (status === "rejected") return "Declined";
     if (status === "cancelled") return "Cancelled";
     if (status === "completed") return "Completed";
-
     return isPastAppointment ? "Past" : "Upcoming";
   };
 
@@ -241,43 +226,31 @@ export const Appointments = () => {
     end: endOfWeek(currentWeek, { weekStartsOn: 1 }),
   });
 
-  const nextWeek = () => {
-    setCurrentWeek(addDays(currentWeek, 7));
-  };
-
-  const prevWeek = () => {
-    setCurrentWeek(addDays(currentWeek, -7));
-  };
-
-  const goToToday = () => {
-    setCurrentWeek(startOfWeek(new Date(), { weekStartsOn: 1 }));
-  };
+  const nextWeek = () => setCurrentWeek(addDays(currentWeek, 7));
+  const prevWeek = () => setCurrentWeek(addDays(currentWeek, -7));
+  const goToToday = () => setCurrentWeek(startOfWeek(new Date(), { weekStartsOn: 1 }));
 
   const getAppointmentsForDate = (date) => {
     const dateStr = format(date, "yyyy-MM-dd");
-    return appointments.filter((apt) => apt.date === dateStr);
-  };
-
-  const filteredAppointments = () => {
-    if (filterStatus === "all") return appointments;
-    return appointments.filter((apt) => apt.status === filterStatus);
+    return appointments.filter(apt => apt.date === dateStr);
   };
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Appointments</h1>
-        <div className="flex justify-center py-12">
-          <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      <DashboardLayout>
+        <div className="space-y-6">
+          <h1 className="text-3xl font-bold">Appointments</h1>
+          <div className="flex justify-center py-12">
+            <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="space-y-6">
+    <DashboardLayout>
+      <div className="space-y-6 p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-3xl font-bold">Appointments</h1>
           <div className="flex items-center gap-2">
@@ -805,6 +778,6 @@ export const Appointments = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </>
+    </DashboardLayout>
   );
 };

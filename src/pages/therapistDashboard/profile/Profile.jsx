@@ -22,6 +22,8 @@ import { AlertCircle, Camera, Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "../../../../contexts/AuthContext";
 import Navbar from "../../../components/Navbar";
+import { SidebarNav } from "../../../components/therapist-dashboard/SidebarNav";
+import { DashboardLayout } from "../Layout";
 
 const specialtiesList = [
   "Anxiety",
@@ -193,7 +195,7 @@ export const Profile = () => {
   }
 
   return (
-    <>
+    <DashboardLayout>
       <Navbar />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Profile Settings</h1>
@@ -451,6 +453,6 @@ export const Profile = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </>
+    </DashboardLayout>
   );
 };

@@ -52,7 +52,7 @@ export function SidebarNav() {
   //   const pathname = currentPath.split("/").slice(0, 3).join("/");
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="-z-1">
       <SidebarGroup>
         <SidebarGroupLabel>Navigation</SidebarGroupLabel>
         <SidebarGroupContent>

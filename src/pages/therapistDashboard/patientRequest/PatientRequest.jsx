@@ -21,10 +21,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "react-toastify"; // Changed to react-toastify
+import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
-import { db } from "../../../lib/firebase";
+import { db } from "@/lib/firebase";
 import { useAuth } from "../../../../contexts/AuthContext";
+import {DashboardLayout} from "../Layout"; // Import the layout
+import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav"; // Import the SidebarNav
 
 export const PatientRequests = () => {
   const { user } = useAuth();
@@ -39,7 +41,6 @@ export const PatientRequests = () => {
 
     const fetchRequests = async () => {
       try {
-        // Fetch all appointment requests for this therapist (simpler query)
         const requestsQuery = query(
           collection(db, "appointments"),
           where("therapistId", "==", user.uid)
@@ -74,7 +75,6 @@ export const PatientRequests = () => {
           }
         });
 
-        // Sort by date and time
         const sortByDateTime = (a, b) => {
           const dateA = new Date(`${a.date}T${a.time}`);
           const dateB = new Date(`${b.date}T${b.time}`);
@@ -103,7 +103,6 @@ export const PatientRequests = () => {
         updatedAt: new Date().toISOString(),
       });
 
-      // Update local state
       const request = pendingRequests.find((r) => r.id === requestId);
       setPendingRequests(pendingRequests.filter((r) => r.id !== requestId));
       setAcceptedRequests([
@@ -128,7 +127,6 @@ export const PatientRequests = () => {
         updatedAt: new Date().toISOString(),
       });
 
-      // Update local state
       const request = pendingRequests.find((r) => r.id === requestId);
       setPendingRequests(pendingRequests.filter((r) => r.id !== requestId));
       setRejectedRequests([
@@ -150,7 +148,6 @@ export const PatientRequests = () => {
     try {
       await deleteDoc(doc(db, "appointments", requestId));
 
-      // Update local state
       if (status === "accepted") {
         setAcceptedRequests(acceptedRequests.filter((r) => r.id !== requestId));
       } else if (status === "rejected") {
@@ -258,68 +255,72 @@ export const PatientRequests = () => {
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Patient Requests</h1>
-        <div className="flex justify-center py-12">
-          <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      <DashboardLayout>
+        <div className="space-y-6">
+          <h1 className="text-3xl font-bold">Patient Requests</h1>
+          <div className="flex justify-center py-12">
+            <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Patient Requests</h1>
+    <DashboardLayout>
+      <div className="space-y-6 p-6">
+        <h1 className="text-3xl font-bold">Patient Requests</h1>
 
-      <Tabs defaultValue="pending">
-        <TabsList>
-          <TabsTrigger value="pending">
-            Pending ({pendingRequests.length})
-          </TabsTrigger>
-          <TabsTrigger value="accepted">
-            Accepted ({acceptedRequests.length})
-          </TabsTrigger>
-          <TabsTrigger value="rejected">
-            Declined ({rejectedRequests.length})
-          </TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="pending">
+          <TabsList>
+            <TabsTrigger value="pending">
+              Pending ({pendingRequests.length})
+            </TabsTrigger>
+            <TabsTrigger value="accepted">
+              Accepted ({acceptedRequests.length})
+            </TabsTrigger>
+            <TabsTrigger value="rejected">
+              Declined ({rejectedRequests.length})
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="pending" className="mt-6">
-          {pendingRequests.length > 0 ? (
-            pendingRequests.map((request) => (
-              <RequestCard key={request.id} request={request} showActions />
-            ))
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No pending requests</p>
-            </div>
-          )}
-        </TabsContent>
+          <TabsContent value="pending" className="mt-6">
+            {pendingRequests.length > 0 ? (
+              pendingRequests.map((request) => (
+                <RequestCard key={request.id} request={request} showActions />
+              ))
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No pending requests</p>
+              </div>
+            )}
+          </TabsContent>
 
-        <TabsContent value="accepted" className="mt-6">
-          {acceptedRequests.length > 0 ? (
-            acceptedRequests.map((request) => (
-              <RequestCard key={request.id} request={request} showDelete />
-            ))
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No accepted requests</p>
-            </div>
-          )}
-        </TabsContent>
+          <TabsContent value="accepted" className="mt-6">
+            {acceptedRequests.length > 0 ? (
+              acceptedRequests.map((request) => (
+                <RequestCard key={request.id} request={request} showDelete />
+              ))
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No accepted requests</p>
+              </div>
+            )}
+          </TabsContent>
 
-        <TabsContent value="rejected" className="mt-6">
-          {rejectedRequests.length > 0 ? (
-            rejectedRequests.map((request) => (
-              <RequestCard key={request.id} request={request} showDelete />
-            ))
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No declined requests</p>
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
-    </div>
+          <TabsContent value="rejected" className="mt-6">
+            {rejectedRequests.length > 0 ? (
+              rejectedRequests.map((request) => (
+                <RequestCard key={request.id} request={request} showDelete />
+              ))
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No declined requests</p>
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DashboardLayout>
   );
 };

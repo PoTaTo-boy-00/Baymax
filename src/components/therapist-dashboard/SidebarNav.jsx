@@ -20,32 +20,32 @@ import { SidebarProvider } from "../ui/sidebar";
 const navItems = [
   {
     title: "Overview",
-    href: "/dashboard",
+    href: "/therapist/dashboard",
     icon: Home,
   },
   {
     title: "Patient Requests",
-    href: "/patient-requests",
+    href: "/therapist/dashboard/patient-requests",
     icon: Bell,
   },
   {
     title: "Appointments",
-    href: "/dashboard/appointments",
+    href: "/therapist/appointments",
     icon: Calendar,
   },
   {
     title: "Patients",
-    href: "/dashboard/patients",
+    href: "/therapist/dashboard/patient",
     icon: Users,
   },
   {
     title: "Messages",
-    href: "/dashboard/messages",
+    href: "/therapist/dashboard/messages",
     icon: MessageSquare,
   },
   {
     title: "Profile",
-    href: "/dashboard/profile",
+    href: "/therapist/dashboard/profile",
     icon: Settings,
   },
 ];
