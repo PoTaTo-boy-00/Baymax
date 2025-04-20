@@ -45,12 +45,12 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
         time: slot.time,
         sessionType,
         notes,
-        status: "pending", // Changed from "scheduled" to "pending" to require therapist approval
+        status: "pending",
         createdAt: new Date().toISOString(),
       });
 
       // Navigate to appointments page
-      navigate("/appointments");
+      navigate("/user/appointments");
     } catch (error) {
       console.error("Error booking appointment:", error);
     } finally {

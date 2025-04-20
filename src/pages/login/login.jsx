@@ -16,14 +16,20 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 
-export default function LoginPage() {
+export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [firebaseStatus, setFirebaseStatus] = useState("checking");
 
-  const { signIn, firebaseInitialized, currentuser, user, loading: authLoading } = useAuth();
+  const {
+    signIn,
+    firebaseInitialized,
+    currentuser,
+    user,
+    loading: authLoading,
+  } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,7 +108,9 @@ export default function LoginPage() {
             {firebaseStatus === "checking" ? (
               <div className="flex justify-center py-4">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <span className="sr-only">Checking Firebase configuration...</span>
+                <span className="sr-only">
+                  Checking Firebase configuration...
+                </span>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -117,8 +125,8 @@ export default function LoginPage() {
                   <Alert variant="destructive" className="mb-4">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      Firebase configuration error. Please make sure your environment
-                      variables are set correctly.
+                      Firebase configuration error. Please make sure your
+                      environment variables are set correctly.
                     </AlertDescription>
                   </Alert>
                 )}
@@ -137,7 +145,10 @@ export default function LoginPage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
-                    <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+                    <Link
+                      to="/forgot-password"
+                      className="text-sm text-primary hover:underline"
+                    >
                       Forgot password?
                     </Link>
                   </div>
@@ -178,4 +189,4 @@ export default function LoginPage() {
       </div>
     </>
   );
-}
+};
