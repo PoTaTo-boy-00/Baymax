@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Calendar, MessageSquare, Users, Bell } from "lucide-react";
+import { Calendar, MessageSquare, Users, Bell, Video } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { db } from "../../lib/firebase";
@@ -28,6 +28,9 @@ import { TherapistMessages } from "./message/TherapistMessages";
 
 import { DashboardLayout } from "./Layout";
 import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
+
+import Navbar from "../../components/Navbar";
+import { VideoCall } from "../videoCall/VideoCall";
 
 export const TherapistDashboard = () => {
   const { user } = useAuth();
@@ -164,6 +167,7 @@ export const TherapistDashboard = () => {
   return (
     <DashboardLayout sidebarNav={<SidebarNav />}>
     <div className="space-y-6">
+      <Navbar />
       <h1 className="text-3xl font-bold">Dashboard</h1>
       <div className="grid gap-6 md:grid-cols-4">
         <Card>
@@ -357,6 +361,7 @@ export const TherapistDashboard = () => {
           </CardContent>
         </Card>
       </div>
+      {/* <VideoCall /> */}
     </div>
     </DashboardLayout>
   );

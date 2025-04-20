@@ -31,6 +31,9 @@ import { Login } from "./pages/Login/UserLogin";
 import { TherapistDashboard} from "./pages/therapistDashboard/TherapistDashboard";
 import { PatientDetail } from "./pages/therapistDashboard/patient/PatientDetail";
 import { TherapistPatients } from "./pages/therapistDashboard/patient/TherapistPatient";
+// import { TherapistDashboard } from "./pages/therapistDashboard/TherapistDashboard";
+import { VideoCallRoom } from "./pages/videoCall/VideoCallRoom";
+import { VideoCall } from "./pages/videoCall/VideoCall";
 
 function App() {
   return (
@@ -87,6 +90,12 @@ function App() {
           />
 
           <Route path="/chat/:therapistId" element={<Chat />} />
+
+          {/* vdo call
+           */}
+
+          <Route path="/video-call/:callId" element={<VideoCallRoom />} />
+          <Route path="/video-call" element={<VideoCall />} />
         </Routes>
       </BrowserRouter>
     </>
