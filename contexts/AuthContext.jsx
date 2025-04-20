@@ -36,7 +36,13 @@ export const AuthProvider = ({ children }) => {
             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email,
-              displayName: firebaseUser.displayName,
+              role: userData.role || "patient", // Default to "patient" if role is not set
+              displayName: userData.displayName || firebaseUser.displayName,
+              isAnonymous: userData.isAnonymous || false,
+              createdAt: userData.createdAt || new Date().toISOString(),
+              lastActive: userData.lastActive || new Date().toISOString(),
+              unreadNotifications: userData.unreadNotifications || 0,
+
               ...userData,
             });
           } else {
