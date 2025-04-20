@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email,
+              displayName: firebaseUser.displayName,
               ...userData,
             });
           } else {

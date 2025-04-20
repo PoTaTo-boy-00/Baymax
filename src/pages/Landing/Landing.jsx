@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useAuth } from "../../../contexts/AuthContext";
 import { PatientRequests } from "../therapistDashboard/patientRequest/PatientRequest";
+import { use } from "react";
 
 export const Lannding = () => {
   const { user } = useAuth();
@@ -23,11 +24,13 @@ export const Lannding = () => {
               navigate life's challenges and improve your mental wellbeing.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link to="/get-therapist">
-                <Button size="lg" className="gap-2">
-                  Find a Therapist <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
+              {user.role === "patient" && (
+                <Link to="/get-therapist">
+                  <Button size="lg" className="gap-2">
+                    Find a Therapist <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              )}
               {user && user.role === "therapist" ? (
                 <Link to="/therapist/dashboard">
                   <Button size="lg" variant="outline">
@@ -85,20 +88,22 @@ export const Lannding = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-primary/5">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">
-              Ready to Start Your Healing Journey?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-              Join thousands of people who have found the right therapist
-              through BayMax.
-            </p>
-            <Link to="/get-therapist">
-              <Button size="lg">Browse Therapists</Button>
-            </Link>
-          </div>
-        </section>
+        {user.role === "patient" && (
+          <section className="py-20 bg-primary/5">
+            <div className="container mx-auto px-4 text-center">
+              <h2 className="text-3xl font-bold mb-6">
+                Ready to Start Your Healing Journey?
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+                Join thousands of people who have found the right therapist
+                through BayMax.
+              </p>
+              <Link to="/get-therapist">
+                <Button size="lg">Browse Therapists</Button>
+              </Link>
+            </div>
+          </section>
+        )}
       </div>
     </>
   );

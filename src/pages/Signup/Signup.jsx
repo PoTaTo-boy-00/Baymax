@@ -92,9 +92,9 @@ export const Signup = () => {
 
       await signUp(email, password, role, nameToUse, stayAnonymous);
       if (role === "therapist") {
-        navigate("/therapist-dashboard/profile");
+        navigate("/therapist/dashboard/profile");
       } else {
-        navigate("/");
+        navigate("/therapist");
       }
     } catch (err) {
       console.error("Signup error:", err);
