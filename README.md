@@ -63,43 +63,43 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
    ```bash
    npm run dev
    ```
-### Tech Stack 🔧
--Frontend
+
+## Tech Stack 🔧
+ ### Frontend
    React + Vite
 
-   Tailwind CSS
+   -Tailwind CSS
 
-   Firebase SDK
+   -Firebase SDK
 
--Backend
-   Firebase Firestore
+ ### Backend
+   -Firebase Firestore
 
-   Firebase Authentication
+   -Firebase Authentication
 
--AI
-   Gemini API
+### AI
+   -Gemini API
 
-   Sentiment Analysis
+   -Sentiment Analysis
 
-### Deployment 🌐
-1. Build for production:
+
+## Deployment 🌐
+### 1. Build for production:
    ```bash
    npm run build
    ```
-2. Deploy to Firebase Hosting:
+### 2. Deploy to Firebase Hosting:
   ```bash
   firebase deploy
   ```
-### How to Contribute 🤝
-  Fork the repository
 
-  Create a new branch
+## How to Contribute 🤝
+  ### Fork the repository
 
-  Commit your changes
+  ### Create a new branch
 
-  Push to the branch
+  ### Commit your changes
 
-  Create a Pull Request
+  ### Push to the branch
 
-### License 📜
-
+  ### Create a Pull Request
