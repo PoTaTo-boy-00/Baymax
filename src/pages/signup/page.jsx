@@ -20,7 +20,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Navbar from "../../components/Navbar";
 
-export const SignupPage = () => {
+export const Signup = () => {
   const [searchParams] = useSearchParams();
   const defaultRole =
     searchParams.get("role") === "therapist" ? "therapist" : "patient";

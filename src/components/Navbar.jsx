@@ -60,9 +60,6 @@ const Navbar = () => {
               My Appointments
             </Link>
           )}
-          <Link to="/about" className="text-sm font-medium hover:text-primary">
-            About
-          </Link>
         </nav>
 
         <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
@@ -111,14 +108,16 @@ const Navbar = () => {
               )}
 
               {/* Logout button */}
-              <Button
-                variant="outline"
-                onClick={logout}
-                className="text-red-600 border-red-200 hover:bg-red-50"
-              >
-                <LogOut className="h-4 w-4 mr-1" />
-                Logout
-              </Button>
+              <Link to="/therapist">
+                <Button
+                  variant="outline"
+                  onClick={logout}
+                  className="text-red-600 border-red-200 hover:bg-red-50"
+                >
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Logout
+                </Button>
+              </Link>
             </>
           ) : (
             <>

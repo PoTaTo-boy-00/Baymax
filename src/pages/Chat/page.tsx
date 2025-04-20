@@ -21,7 +21,7 @@ import { format } from "date-fns";
 import { db } from "../../lib/firebase";
 import { useAuth } from "../../../contexts/AuthContext";
 
-export const ChatPage = () => {
+export const Chat = () => {
   const { therapistId } = useParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();

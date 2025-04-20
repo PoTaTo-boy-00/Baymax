@@ -8,26 +8,24 @@ import UserDashboard from "./pages/User/UserDashboard";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
 // import { SignupPage } from "./pages/signup/page";
-import { ChatPage } from "./pages/Chat/page";
+import { Chat } from "./pages/Chat/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
 import { PatientRequests } from "./pages/therapistDashboard/patientRequest/PatientRequest";
 import { TherapistMessages } from "./pages/therapistDashboard/message/TherapistMessages";
-import { TherapistChatPage } from "./pages/therapistDashboard/message/TherapistChatPage";
+import { TherapistChat } from "./pages/therapistDashboard/message/TherapistChat";
 import { GetTherapist } from "./pages/Therapist/GetTherapist";
-import {
-  TherapistBooking,
-  TherapistProfilePage,
-} from "./pages/Therapist/TherapistBooking";
-import { TherapistRegisterPage } from "./pages/therapistDashboard/register/TherapistRegisterPage";
+import { TherapistBooking } from "./pages/Therapist/TherapistBooking";
+import { TherapistRegister } from "./pages/therapistDashboard/register/TherapistRegister";
 // import Login from "./pages/login/login";
 
 import Navbar from "./components/Navbar";
 // import { UserAppointment } from "./pages/userSideTherapist/UserSideTherapist";
 import UserAppointment from "./pages/Appointment/UserAppoinment";
-import TherapistAppointmentsPage from "./pages/therapistDashboard/therapistAppointment/TherapistAppointment";
-import { LoginPage } from "./pages/Login/login";
-import { SignupPage } from "./pages/Signup/page";
+import { Appointments } from "./pages/therapistDashboard/therapistAppointment/TherapistAppointment";
+
+import { Signup } from "./pages/Signup/page";
 import { Lannding } from "./pages/Landing/Landing";
+import { Login } from "./pages/Login/login";
 
 function App() {
   return (
@@ -55,19 +53,11 @@ function App() {
             element={<TherapistMessages />}
           />
 
-          <Route
-            path="/therapist/dashboard/messages/:patientId"
-            element={<TherapistChatPage />}
-          />
-
           {/* user */}
 
           <Route path="/user/appointments" element={<UserAppointment />} />
 
-          <Route
-            path="/therapist/appointments"
-            element={<TherapistAppointmentsPage />}
-          />
+          <Route path="/therapist/appointments" element={<Appointments />} />
 
           <Route path="/get-therapist" element={<GetTherapist />} />
 
@@ -75,20 +65,20 @@ function App() {
 
           {/* auth */}
 
-          <Route path="/signupTherapist" element={<TherapistRegisterPage />} />
+          <Route path="/signupTherapist" element={<TherapistRegister />} />
 
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<Login />} />
 
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/signup" element={<Signup />} />
 
           {/* theraopist and user chat  */}
 
           <Route
             path="/therapist/dashboard/messages/:patientId"
-            element={<TherapistChatPage />}
+            element={<TherapistChat />}
           />
 
-          <Route path="/chat/:therapistId" element={<ChatPage />} />
+          <Route path="/chat/:therapistId" element={<Chat />} />
         </Routes>
       </BrowserRouter>
     </>

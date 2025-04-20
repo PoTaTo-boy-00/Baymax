@@ -24,7 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { db } from "../../../lib/firebase";
 import { useAuth } from "../../../../contexts/AuthContext";
 
-export const TherapistChatPage = () => {
+export const TherapistChat = () => {
   const { patientId } = useParams();
   const { user } = useAuth();
   const [patient, setPatient] = useState(null);
@@ -204,7 +204,7 @@ export const TherapistChatPage = () => {
         <TabsList>
           <TabsTrigger value="chat">Chat</TabsTrigger>
           <TabsTrigger value="appointments">Appointments</TabsTrigger>
-          <TabsTrigger value="notes">Patient Notes</TabsTrigger>
+          {/* <TabsTrigger value="notes">Patient Notes</TabsTrigger> */}
         </TabsList>
 
         <TabsContent value="chat" className="mt-6">
@@ -350,7 +350,7 @@ export const TherapistChatPage = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="notes" className="mt-6">
+        {/* <TabsContent value="notes" className="mt-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -370,7 +370,7 @@ export const TherapistChatPage = () => {
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </div>
   );

@@ -57,7 +57,7 @@ import {
 import { useAuth } from "../../../../contexts/AuthContext";
 import Navbar from "../../../components/Navbar";
 
-export default function TherapistAppointmentsPage() {
+export const Appointments = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
@@ -807,4 +807,4 @@ export default function TherapistAppointmentsPage() {
       </div>
     </>
   );
-}
+};
