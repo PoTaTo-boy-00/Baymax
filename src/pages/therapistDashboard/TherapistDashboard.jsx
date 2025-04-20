@@ -25,11 +25,11 @@ import { db } from "../../lib/firebase";
 import { useAuth } from "../../../contexts/AuthContext";
 import { PatientRequests } from "./patientRequest/PatientRequest";
 import { TherapistMessages } from "./message/TherapistMessages";
-import { TherapistChatPage } from "./message/TherapistChat";
+
 import { DashboardLayout } from "./Layout";
 import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
 
-export const TherapistDashboardPage = () => {
+export const TherapistDashboard = () => {
   const { user } = useAuth();
   const [pendingRequests, setPendingRequests] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);

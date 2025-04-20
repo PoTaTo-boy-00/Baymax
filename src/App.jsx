@@ -6,7 +6,8 @@ import Home from "./pages/User/Home";
 import UserDashboard from "./pages/User/UserDashboard";
 // import UserSideTherapist from "./pages/BaymaxLanding/BaymaxLanding";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
-import TherapistDashboard from "./pages/therapistDashboard/TherapistDashboard";
+// import {TherapistDashboard} from "./pages/therapistDashboard/TherapistDashboard";
+
 // import { SignupPage } from "./pages/signup/page";
 import { Chat } from "./pages/Chat/page";
 import { Profile } from "./pages/therapistDashboard/profile/Profile";
@@ -16,6 +17,7 @@ import { TherapistChat } from "./pages/therapistDashboard/message/TherapistChat"
 import { GetTherapist } from "./pages/Therapist/GetTherapist";
 import { TherapistBooking } from "./pages/Therapist/TherapistBooking";
 import { TherapistRegister } from "./pages/therapistDashboard/register/TherapistRegister";
+// import { PatientDetail } from "./pages/therapistDashboard/patient/Patient";
 
 import Navbar from "./components/Navbar";
 // import { UserAppointment } from "./pages/userSideTherapist/UserSideTherapist";
@@ -26,6 +28,9 @@ import { Lannding } from "./pages/Landing/Landing";
 
 import { Signup } from "./pages/Signup/Signup";
 import { Login } from "./pages/Login/UserLogin";
+import { TherapistDashboard} from "./pages/therapistDashboard/TherapistDashboard";
+import { PatientDetail } from "./pages/therapistDashboard/patient/PatientDetail";
+import { TherapistPatients } from "./pages/therapistDashboard/patient/TherapistPatient";
 
 function App() {
   return (
@@ -39,7 +44,7 @@ function App() {
 
           {/* therapist */}
 
-          <Route path="/therapist/dashboard" element={<TherapistDashboard />} />
+          <Route path="/therapist/dashboard" element={<TherapistDashboard/>} />
 
           <Route path="/therapist/dashboard/profile" element={<Profile />} />
 
@@ -52,6 +57,9 @@ function App() {
             path="/therapist/dashboard/messages"
             element={<TherapistMessages />}
           />
+
+          <Route path="/therapist/dashboard/patient/:patientId" element={<PatientDetail />} />
+          <Route path="/therapist/dashboard/patient" element={<TherapistPatients />} />
 
           {/* user */}
 
@@ -71,7 +79,7 @@ function App() {
 
           <Route path="/signup" element={<Signup />} />
 
-          {/* theraopist and user chat  */}
+          {/* therapist and user chat  */}
 
           <Route
             path="/therapist/dashboard/messages/:patientId"

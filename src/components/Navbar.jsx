@@ -65,7 +65,6 @@ const Navbar = () => {
         <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
           {user ? (
             <>
-              {/* User icon button */}
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="rounded-full p-2 hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary"

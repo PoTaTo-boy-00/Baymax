@@ -20,7 +20,7 @@ import { SidebarProvider } from "../ui/sidebar";
 const navItems = [
   {
     title: "Overview",
-    href: "/dashboard",
+    href: "/therapist/dashboard",
     icon: Home,
   },
   {
@@ -35,7 +35,7 @@ const navItems = [
   },
   {
     title: "Patients",
-    href: "/dashboard/patients",
+    href: "/therapist/dashboard/patient",
     icon: Users,
   },
   {
