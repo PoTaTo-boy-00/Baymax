@@ -79,7 +79,7 @@ const UserDashboard = () => {
 
   return (
     <>
-    <Navbar />
+    
     <div className="bg-gradient-to-r from-indigo-100 to-indigo-300 min-h-screen flex items-center justify-center">
       <div
         style={{
