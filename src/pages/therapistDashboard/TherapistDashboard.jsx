@@ -365,7 +365,7 @@ export const TherapistDashboard = () => {
             </Card>
           </div>
           {/* <VideoCall /> */}
-          <NotificationBell />
+          {/* <NotificationBell /> */}
         </div>
       </DashboardLayout>
     </>
