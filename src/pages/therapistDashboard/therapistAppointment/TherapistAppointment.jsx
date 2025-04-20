@@ -57,6 +57,7 @@ import {
 import { useAuth } from "../../../../contexts/AuthContext";
 import {DashboardLayout} from "../Layout";
 import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
+import Navbar from "../../../components/Navbar";
 
 export const Appointments = () => {
   const { user, loading: authLoading } = useAuth();
@@ -249,6 +250,8 @@ export const Appointments = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <DashboardLayout>
       <div className="space-y-6 p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -778,6 +781,6 @@ export const Appointments = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </DashboardLayout>
+    </DashboardLayout></>
   );
 };
