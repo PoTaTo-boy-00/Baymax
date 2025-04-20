@@ -4,11 +4,10 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  signInAnonymously,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
-// import SignupPage from "../src/pages/signup/page";
+import { auth, db } from "../src/lib/firebase";
+// Update this import path to match your Vite project structure
 
 const AuthContext = createContext(null);
 
@@ -16,7 +15,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [firebaseInitialized, setFirebaseInitialized] = useState(false);
-  const [isAnonymous, setIsAnonymous] = useState(false);
 
   useEffect(() => {
     // Check if Firebase is properly initialized
@@ -31,33 +29,25 @@ export const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
-          setIsAnonymous(firebaseUser.isAnonymous);
-
-          if (!firebaseUser.isAnonymous) {
-            const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
-            if (userDoc.exists()) {
-              setUser({
-                uid: firebaseUser.uid,
-                email: firebaseUser.email,
-                ...userDoc.data(),
-              });
-            } else {
-              setUser({
-                uid: firebaseUser.uid,
-                email: firebaseUser.email,
-                role: "guest", // Default role
-              });
-            }
-          } else {
+          // Get additional user data from Firestore
+          const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
             setUser({
               uid: firebaseUser.uid,
-              isAnonymous: true,
-              role: "anonymous",
+              email: firebaseUser.email,
+              ...userData,
+            });
+          } else {
+            // Fallback if user document doesn't exist
+            setUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              role: "patient", // Default role
             });
           }
         } else {
           setUser(null);
-          setIsAnonymous(false);
         }
       } catch (error) {
         console.error("Error in auth state change:", error);
@@ -70,17 +60,13 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const signInAnon = async () => {
-    try {
-      const result = await signInAnonymously(auth);
-      return result.user;
-    } catch (error) {
-      console.error("Anonymous sign-in failed:", error);
-      throw error;
-    }
-  };
-
-  const signUp = async (email, password, role, displayName) => {
+  const signUp = async (
+    email,
+    password,
+    role,
+    displayName,
+    isAnonymous = false
+  ) => {
     if (!firebaseInitialized) {
       throw new Error("Firebase authentication is not initialized");
     }
@@ -98,7 +84,10 @@ export const AuthProvider = ({ children }) => {
         email: firebaseUser.email,
         role,
         displayName,
+        isAnonymous,
         createdAt: new Date().toISOString(),
+        lastActive: new Date().toISOString(),
+        unreadNotifications: 0,
       });
 
       return firebaseUser;
@@ -136,7 +125,21 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      return await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // Update last active timestamp
+      const userRef = doc(db, "users", userCredential.user.uid);
+      await setDoc(
+        userRef,
+        { lastActive: new Date().toISOString() },
+        { merge: true }
+      );
+
+      return userCredential;
     } catch (error) {
       console.error("Error signing in:", error);
 
@@ -162,13 +165,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const currentuser = () => {
-    if (!firebaseInitialized) {
-      throw new Error("Firebase authentication is not initialized");
-    }
-    return user;
-  };
-
   const logout = async () => {
     if (!firebaseInitialized) {
       throw new Error("Firebase authentication is not initialized");
@@ -187,14 +183,10 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         loading,
-        isAnonymous,
         signUp,
         signIn,
-        signInAnon,
         logout,
-        currentuser,
         firebaseInitialized,
-        
       }}
     >
       {children}

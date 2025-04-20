@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-// import { useAuth } from "@/contexts/auth-context"
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import {
   Dialog,
   DialogContent,
@@ -16,18 +14,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
-import { CalendarClock } from "lucide-react";
+import { CalendarClock, Shield } from "lucide-react";
+import { sendAppointmentNotification } from "../lib/notifications";
+import { db } from "../lib/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
 export const BookingModal = ({ therapist, slot, onClose }) => {
   const { user } = useAuth();
-  //const router = useRouter()
+  const navigate = useNavigate();
   const [sessionType, setSessionType] = useState(
     therapist.sessionTypes?.[0] || "Video"
   );
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleBooking = async () => {
     if (!user) return;
@@ -35,19 +34,37 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
     setLoading(true);
 
     try {
+      // Get user data to check if anonymous
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userData = userDoc.exists() ? userDoc.data() : {};
+      const isAnonymous = userData.isAnonymous || false;
+
       // Create appointment in Firestore
       const appointmentRef = await addDoc(collection(db, "appointments"), {
         therapistId: therapist.id,
         therapistName: therapist.displayName,
         patientId: user.uid,
-        patientName: user.displayName || user.email,
+        patientName: isAnonymous
+          ? userData.displayName
+          : user.displayName || user.email,
+        patientIsAnonymous: isAnonymous,
         date: slot.date,
         time: slot.time,
         sessionType,
         notes,
-        status: "pending",
+        status: "pending", // Changed from "scheduled" to "pending" to require therapist approval
         createdAt: new Date().toISOString(),
       });
+
+      // Send notification to therapist
+      await sendAppointmentNotification(
+        therapist.id,
+        appointmentRef.id,
+        `New appointment request for ${format(
+          new Date(slot.date),
+          "MMMM d"
+        )} at ${slot.time}`
+      );
 
       // Navigate to appointments page
       navigate("/user/appointments");
@@ -58,6 +75,7 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
       onClose();
     }
   };
+
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
@@ -76,6 +94,17 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
                 {format(new Date(slot.date), "EEEE, MMMM d, yyyy")}
               </p>
               <p className="text-sm text-muted-foreground">{slot.time}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-md">
+            <Shield className="h-5 w-5 text-blue-500" />
+            <div>
+              <p className="font-medium">Anonymous Booking</p>
+              <p className="text-sm text-muted-foreground">
+                Your identity will be kept private. The therapist will only see
+                your anonymous username.
+              </p>
             </div>
           </div>
 
