@@ -19,6 +19,7 @@ import { db } from "../../../lib/firebase";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { SidebarNav } from "../../../components/therapist-dashboard/SidebarNav";
 import { DashboardLayout } from "../Layout";
+import Navbar from "../../../components/Navbar";
 
 export const TherapistMessages = () => {
   const { user } = useAuth();
@@ -110,6 +111,8 @@ export const TherapistMessages = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <DashboardLayout>
       <div className="space-y-6">
       <h1 className="text-3xl font-bold">Messages</h1>
@@ -178,6 +181,6 @@ export const TherapistMessages = () => {
         </CardContent>
       </Card>
     </div>
-    </DashboardLayout>
+    </DashboardLayout></>
   );
 };

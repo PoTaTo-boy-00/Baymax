@@ -27,6 +27,7 @@ import { db } from "@/lib/firebase";
 import { useAuth } from "../../../../contexts/AuthContext";
 import {DashboardLayout} from "../Layout"; // Import the layout
 import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav"; // Import the SidebarNav
+import Navbar from "../../../components/Navbar";
 
 export const PatientRequests = () => {
   const { user } = useAuth();
@@ -267,6 +268,8 @@ export const PatientRequests = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <DashboardLayout>
       <div className="space-y-6 p-6">
         <h1 className="text-3xl font-bold">Patient Requests</h1>
@@ -321,6 +324,6 @@ export const PatientRequests = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+    </DashboardLayout></>
   );
 };
