@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import {
   doc,
   getDoc,
@@ -15,25 +14,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { format, addDays, isBefore, isAfter } from "date-fns";
 import { CalendarIcon, Clock, MapPin, MessageSquare, Star } from "lucide-react";
-
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { QuestionSuggestions } from "@/components/QuestionSuggestion";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRouter } from "@tanstack/react-router";
-import Navbar from "../../components/Navbar";
-
+import Navbar from "@/components/Navbar";
 import { BookingModal } from "@/components/BookingModal";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const TherapistBooking = () => {
   const { id } = useParams();
-
   const navigate = useNavigate();
-
   const { user } = useAuth();
   const [therapist, setTherapist] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -41,6 +36,7 @@ export const TherapistBooking = () => {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   useEffect(() => {
     const fetchTherapist = async () => {
@@ -142,6 +138,15 @@ export const TherapistBooking = () => {
     setShowBookingModal(true);
   };
 
+  const isDateDisabled = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const maxDate = addDays(today, 30);
+    return isBefore(date, today) || isAfter(date, maxDate);
+  };
+
+  const formattedDate = format(selectedDate, "MMMM d, yyyy");
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -181,7 +186,7 @@ export const TherapistBooking = () => {
         <p className="mb-6">
           The therapist you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => navigate("/therapist")}>
+        <Button onClick={() => navigate("/therapists")}>
           Back to Therapists
         </Button>
       </div>
@@ -199,9 +204,13 @@ export const TherapistBooking = () => {
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center mb-6">
                   <Avatar className="h-32 w-32 mb-4">
-                    <AvatarFallback className="text-4xl">
-                      {therapist.displayName.charAt(0)}
-                    </AvatarFallback>
+                    {therapist.photoURL ? (
+                      <AvatarImage src={therapist.photoURL} />
+                    ) : (
+                      <AvatarFallback className="text-4xl">
+                        {therapist.displayName.charAt(0)}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                   <h1 className="text-2xl font-bold">
                     {therapist.displayName}
@@ -331,30 +340,46 @@ export const TherapistBooking = () => {
                       </div>
                     ) : (
                       <div className="flex flex-col md:flex-row gap-8">
-                        <div>
-                          <h3 className="text-sm font-medium mb-2 flex items-center">
+                        <div className="space-y-4">
+                          <h3 className="text-sm font-medium flex items-center">
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             Select a Date
                           </h3>
-                          {/* <Calendar
-                          mode="single"
-                          selected={selectedDate}
-                          onSelect={setSelectedDate}
-                          className="rounded-md border"
-                          disabled={(date) =>
-                            date < new Date() ||
-                            date >
-                              new Date(
-                                new Date().setDate(new Date().getDate() + 30)
-                              )
-                          }
-                        /> */}
+                          
+                          <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className="w-full justify-start text-left font-normal"
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {formattedDate}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={selectedDate}
+                                onSelect={(date) => {
+                                  setSelectedDate(date);
+                                  setCalendarOpen(false);
+                                }}
+                                className="rounded-md border"
+                                disabled={isDateDisabled}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+
+                          <div className="text-sm text-muted-foreground">
+                            Select a date to see available time slots
+                          </div>
                         </div>
 
                         <div className="flex-1">
                           <h3 className="text-sm font-medium mb-2 flex items-center">
                             <Clock className="mr-2 h-4 w-4" />
-                            Available Time Slots
+                            Available Time Slots for {formattedDate}
                           </h3>
 
                           {availableSlots.length > 0 ? (

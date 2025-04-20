@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { format } from "date-fns";
+import { format, parseISO, isValid } from "date-fns";
 import { CalendarClock, Shield } from "lucide-react";
 import { sendAppointmentNotification } from "../lib/notifications";
 import { db } from "../lib/firebase";
@@ -27,6 +27,40 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
   );
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Helper function to safely parse and format dates
+  const formatDate = (dateString, formatStr = "EEEE, MMMM d, yyyy") => {
+    if (!dateString) return "Invalid date";
+    
+    try {
+      // Try parsing the date string (could be ISO string, timestamp, etc.)
+      let date;
+      if (typeof dateString === 'string') {
+        date = new Date(dateString);
+        // If the string is in YYYY-MM-DD format (without time)
+        if (isNaN(date.getTime())) {
+          const [year, month, day] = dateString.split('-');
+          date = new Date(year, month - 1, day);
+        }
+      } else if (dateString.toDate) {
+        // Handle Firestore timestamps
+        date = dateString.toDate();
+      } else if (dateString instanceof Date) {
+        date = dateString;
+      } else {
+        return "Invalid date";
+      }
+
+      if (!isValid(date)) {
+        return "Invalid date";
+      }
+
+      return format(date, formatStr);
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid date";
+    }
+  };
 
   const handleBooking = async () => {
     if (!user) return;
@@ -60,10 +94,7 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
       await sendAppointmentNotification(
         therapist.id,
         appointmentRef.id,
-        `New appointment request for ${format(
-          new Date(slot.date),
-          "MMMM d"
-        )} at ${slot.time}`
+        `New appointment request for ${formatDate(slot.date, "MMMM d")} at ${slot.time}`
       );
 
       // Navigate to appointments page
@@ -91,7 +122,7 @@ export const BookingModal = ({ therapist, slot, onClose }) => {
             <CalendarClock className="h-5 w-5 text-primary" />
             <div>
               <p className="font-medium">
-                {format(new Date(slot.date), "EEEE, MMMM d, yyyy")}
+                {formatDate(slot.date, "EEEE, MMMM d, yyyy")}
               </p>
               <p className="text-sm text-muted-foreground">{slot.time}</p>
             </div>

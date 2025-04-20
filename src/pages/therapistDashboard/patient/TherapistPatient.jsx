@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { DashboardLayout } from "../Layout";
 import { SidebarNav } from "../../../components/therapist-dashboard/SidebarNav";
+import Navbar from "../../../components/Navbar";
 
 export const TherapistPatients = () => {
   const { user } = useAuth();
@@ -251,6 +252,8 @@ export const TherapistPatients = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <DashboardLayout>
         <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -343,6 +346,6 @@ export const TherapistPatients = () => {
         </CardContent>
       </Card>
     </div>
-    </DashboardLayout>
+    </DashboardLayout></>
   );
 }

@@ -195,6 +195,8 @@ export const Profile = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Profile Settings</h1>
@@ -452,6 +454,6 @@ export const Profile = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+    </DashboardLayout></>
   );
 };
