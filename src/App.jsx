@@ -23,9 +23,9 @@ import Navbar from "./components/Navbar";
 import UserAppointment from "./pages/Appointment/UserAppoinment";
 import { Appointments } from "./pages/therapistDashboard/therapistAppointment/TherapistAppointment";
 
-import { Signup } from "./pages/Signup/page";
 import { Lannding } from "./pages/Landing/Landing";
 import { Login } from "./pages/Login/login";
+import { Signup } from "./pages/Signup/Signup";
 
 function App() {
   return (
