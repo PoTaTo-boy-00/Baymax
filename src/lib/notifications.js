@@ -2,11 +2,11 @@ import {
   collection,
   addDoc,
   serverTimestamp,
-  increment,
   doc,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
-import { db } from "./firebase"; // Update the import path according to your project structure
+import { db } from "@/lib/firebase";
 
 /**
  * Send a notification to a user
@@ -18,6 +18,15 @@ import { db } from "./firebase"; // Update the import path according to your pro
  */
 export async function sendNotification(userId, message, type, data = {}) {
   try {
+    // Check if user exists
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      console.error("User does not exist:", userId);
+      return null;
+    }
+
     // Create the notification
     const notificationRef = await addDoc(collection(db, "notifications"), {
       userId,
@@ -29,8 +38,13 @@ export async function sendNotification(userId, message, type, data = {}) {
     });
 
     // Update the user's unread notification count
-    await updateDoc(doc(db, "users", userId), {
-      unreadNotifications: increment(1),
+    // Instead of using increment which requires a separate index,
+    // we'll get the current count and increment it manually
+    const userData = userSnap.data();
+    const currentCount = userData.unreadNotifications || 0;
+
+    await updateDoc(userRef, {
+      unreadNotifications: currentCount + 1,
     });
 
     return notificationRef.id;

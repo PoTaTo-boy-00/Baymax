@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { User, LogOut, Settings } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
+import { NotificationBell } from "./Notifications/NotificationBell";
+// import { NotificationBell } from "../pages/Notifications/NotificationBell";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -11,7 +13,7 @@ const Navbar = () => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -66,6 +68,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
           {user ? (
             <>
+              <NotificationBell />
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="rounded-full p-2 hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary"

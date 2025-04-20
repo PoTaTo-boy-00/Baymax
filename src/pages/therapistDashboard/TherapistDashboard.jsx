@@ -27,9 +27,8 @@ import { TherapistMessages } from "./message/TherapistMessages";
 
 import { DashboardLayout } from "./Layout";
 import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
-
+import { NotificationBell } from "../../components/Notifications/NotificationBell";
 import Navbar from "../../components/Navbar";
-import { VideoCall } from "../videoCall/VideoCall";
 
 export const TherapistDashboard = () => {
   const { user } = useAuth();
@@ -166,206 +165,209 @@ export const TherapistDashboard = () => {
   return (
     <>
       <Navbar />
-    <DashboardLayout sidebarNav={<SidebarNav />}>
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <div className="grid gap-6 md:grid-cols-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Patient Requests</CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center gap-4">
-              <Bell className="h-6 w-6 text-primary" />
-              <div className="text-3xl font-bold">{pendingRequests.length}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Total Patients</CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center gap-4">
-              <Users className="h-6 w-6 text-primary" />
-              <div className="text-3xl font-bold">{patientCount}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Upcoming Sessions</CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center gap-4">
-              <Calendar className="h-6 w-6 text-primary" />
-              <div className="text-3xl font-bold">
-                {upcomingAppointments.length}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Unread Messages</CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center gap-4">
-              <MessageSquare className="h-6 w-6 text-primary" />
-              <div className="text-3xl font-bold">
-                {recentMessages.filter((msg) => !msg.read).length}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {pendingRequests.length > 0 && (
+      <DashboardLayout sidebarNav={<SidebarNav />}>
+        <div className="space-y-6">
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <div className="grid gap-6 md:grid-cols-4">
             <Card>
-              <CardHeader>
-                <CardTitle>New Patient Requests</CardTitle>
-                <CardDescription>
-                  Patients waiting for your approval
-                </CardDescription>
+              <CardHeader className="pb-2">
+                <CardDescription>Patient Requests</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {pendingRequests.map((request) => (
-                    <div
-                      key={request.id}
-                      className="flex items-center justify-between"
-                    >
-                      <div className="flex items-center gap-3">
-                        <Avatar>
-                          <AvatarFallback>
-                            {request.patientName.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium">{request.patientName}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {format(new Date(request.date), "MMM d")} at{" "}
-                            {request.time}
-                          </p>
-                        </div>
-                      </div>
-                      {/* <Button variant="outline" size="sm" asChild>
-                      <Link to="/therapist/dashboard/patient-requests">
-                        View
-                      </Link>
-                    </Button> */}
-                    </div>
-                  ))}
-                  <Button className="w-full" variant="outline" asChild>
-                    <Link to="/therapist/dashboard/patient-requests">
-                      View All Requests
-                    </Link>
-                  </Button>
+              <CardContent className="flex items-center gap-4">
+                <Bell className="h-6 w-6 text-primary" />
+                <div className="text-3xl font-bold">
+                  {pendingRequests.length}
                 </div>
               </CardContent>
             </Card>
-          )}
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Upcoming Appointments</CardTitle>
-              <CardDescription>
-                Your scheduled sessions for the next few days
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {upcomingAppointments.length > 0 ? (
-                <div className="space-y-4">
-                  {upcomingAppointments.map((appointment) => (
-                    <div
-                      key={appointment.id}
-                      className="flex items-center justify-between"
-                    >
-                      <div className="flex items-center gap-3">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardDescription>Total Patients</CardDescription>
+              </CardHeader>
+              <CardContent className="flex items-center gap-4">
+                <Users className="h-6 w-6 text-primary" />
+                <div className="text-3xl font-bold">{patientCount}</div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardDescription>Upcoming Sessions</CardDescription>
+              </CardHeader>
+              <CardContent className="flex items-center gap-4">
+                <Calendar className="h-6 w-6 text-primary" />
+                <div className="text-3xl font-bold">
+                  {upcomingAppointments.length}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardDescription>Unread Messages</CardDescription>
+              </CardHeader>
+              <CardContent className="flex items-center gap-4">
+                <MessageSquare className="h-6 w-6 text-primary" />
+                <div className="text-3xl font-bold">
+                  {recentMessages.filter((msg) => !msg.read).length}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {pendingRequests.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>New Patient Requests</CardTitle>
+                  <CardDescription>
+                    Patients waiting for your approval
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {pendingRequests.map((request) => (
+                      <div
+                        key={request.id}
+                        className="flex items-center justify-between"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar>
+                            <AvatarFallback>
+                              {request.patientName.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium">{request.patientName}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {format(new Date(request.date), "MMM d")} at{" "}
+                              {request.time}
+                            </p>
+                          </div>
+                        </div>
+                        {/* <Button variant="outline" size="sm" asChild>
+                      <Link to="/therapist/dashboard/patient-requests">
+                      View
+                      </Link>
+                      </Button> */}
+                      </div>
+                    ))}
+                    <Button className="w-full" variant="outline" asChild>
+                      <Link to="/therapist/dashboard/patient-requests">
+                        View All Requests
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Upcoming Appointments</CardTitle>
+                <CardDescription>
+                  Your scheduled sessions for the next few days
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {upcomingAppointments.length > 0 ? (
+                  <div className="space-y-4">
+                    {upcomingAppointments.map((appointment) => (
+                      <div
+                        key={appointment.id}
+                        className="flex items-center justify-between"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar>
+                            <AvatarFallback>
+                              {appointment.patientName.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium">
+                              {appointment.patientName}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {format(new Date(appointment.date), "MMM d")} at{" "}
+                              {appointment.time}
+                            </p>
+                          </div>
+                        </div>
+                        {/* <Button variant="outline" size="sm" asChild>
+                      <Link to={`/therapist/appointments/${appointment.id}`}>
+                      View
+                      </Link>
+                      </Button> */}
+                      </div>
+                    ))}
+                    <Button className="w-full" variant="outline" asChild>
+                      <Link to="/therapist/appointments">
+                        View All Appointments
+                      </Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="text-center py-6">
+                    <p className="text-muted-foreground">
+                      No upcoming appointments
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Messages</CardTitle>
+                <CardDescription>
+                  Latest messages from your patients
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {recentMessages.length > 0 ? (
+                  <div className="space-y-4">
+                    {recentMessages.map((message) => (
+                      <div key={message.id} className="flex items-center gap-3">
                         <Avatar>
                           <AvatarFallback>
-                            {appointment.patientName.charAt(0)}
+                            {message.senderName.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
-                        <div>
-                          <p className="font-medium">
-                            {appointment.patientName}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {format(new Date(appointment.date), "MMM d")} at{" "}
-                            {appointment.time}
-                          </p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <p className="font-medium flex items-center gap-2">
+                              {message.senderName}
+                              {!message.read && (
+                                <span className="w-2 h-2 rounded-full bg-primary" />
+                              )}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {format(message.timestamp, "MMM d, h:mm a")}
+                            </p>
+                          </div>
+                          <p className="text-sm truncate">{message.text}</p>
                         </div>
                       </div>
-                      {/* <Button variant="outline" size="sm" asChild>
-                      <Link to={`/therapist/appointments/${appointment.id}`}>
-                        View
+                    ))}
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link to="/therapist/dashboard/messages">
+                        View All Messages
                       </Link>
-                    </Button> */}
-                    </div>
-                  ))}
-                  <Button className="w-full" variant="outline" asChild>
-                    <Link to="/therapist/appointments">
-                      View All Appointments
-                    </Link>
-                  </Button>
-                </div>
-              ) : (
-                <div className="text-center py-6">
-                  <p className="text-muted-foreground">
-                    No upcoming appointments
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Messages</CardTitle>
-              <CardDescription>
-                Latest messages from your patients
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {recentMessages.length > 0 ? (
-                <div className="space-y-4">
-                  {recentMessages.map((message) => (
-                    <div key={message.id} className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarFallback>
-                          {message.senderName.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium flex items-center gap-2">
-                            {message.senderName}
-                            {!message.read && (
-                              <span className="w-2 h-2 rounded-full bg-primary" />
-                            )}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {format(message.timestamp, "MMM d, h:mm a")}
-                          </p>
-                        </div>
-                        <p className="text-sm truncate">{message.text}</p>
-                      </div>
-                    </div>
-                  ))}
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/therapist/dashboard/messages">
-                      View All Messages
-                    </Link>
-                  </Button>
-                </div>
-              ) : (
-                <div className="text-center py-6">
-                  <p className="text-muted-foreground">No recent messages</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="text-center py-6">
+                    <p className="text-muted-foreground">No recent messages</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+          {/* <VideoCall /> */}
+          <NotificationBell />
         </div>
-        {/* <VideoCall /> */}
-      </div>
-    </DashboardLayout>
+      </DashboardLayout>
     </>
   );
 };

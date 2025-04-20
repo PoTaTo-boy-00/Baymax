@@ -434,7 +434,7 @@ export const Profile = () => {
                     id="sessionFee"
                     value={sessionFee}
                     onChange={(e) => setSessionFee(e.target.value)}
-                    placeholder="$150 per session"
+                    placeholder="Rs.150 per session"
                   />
                 </div>
               </CardContent>
