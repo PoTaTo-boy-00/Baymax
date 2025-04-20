@@ -29,28 +29,37 @@ const Navbar = () => {
 
         <nav className="hidden md:flex items-center space-x-6">
           {user?.role === "patient" && (
-            <Link to="/get-therapist" className="text-sm font-medium hover:text-primary">
+            <Link
+              to="/get-therapist"
+              className="text-sm font-medium hover:text-primary"
+            >
               Find Therapists
             </Link>
           )}
           {user?.role === "therapist" && (
-            <Link to="/therapist/dashboard" className="text-sm font-medium hover:text-primary">
+            <Link
+              to="/therapist/dashboard"
+              className="text-sm font-medium hover:text-primary"
+            >
               Dashboard
             </Link>
           )}
           {user?.role === "patient" && (
-            <Link to="/user/appointments" className="text-sm font-medium hover:text-primary">
+            <Link
+              to="/user/appointments"
+              className="text-sm font-medium hover:text-primary"
+            >
               My Appointments
             </Link>
           )}
           {user?.role === "therapist" && (
-            <Link to="/therapist/appointments" className="text-sm font-medium hover:text-primary">
+            <Link
+              to="/therapist/appointments"
+              className="text-sm font-medium hover:text-primary"
+            >
               My Appointments
             </Link>
           )}
-          <Link to="/about" className="text-sm font-medium hover:text-primary">
-            About
-          </Link>
         </nav>
 
         <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
@@ -72,30 +81,43 @@ const Navbar = () => {
                   </div>
                   <hr className="my-1" />
                   {user?.role === "therapist" && (
-                    <Link to="/therapist/dashboard" className="block px-4 py-2 hover:bg-gray-100">
+                    <Link
+                      to="/therapist/dashboard"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Dashboard
                     </Link>
                   )}
                   {user?.role === "patient" && (
-                    <Link to="/user/appointments" className="block px-4 py-2 hover:bg-gray-100">
+                    <Link
+                      to="/user/appointments"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       My Appointments
                     </Link>
                   )}
-                  <Link to="/therapist/dashboard/profile" className="flex items-center px-4 py-2 hover:bg-gray-100">
-                    <Settings className="h-4 w-4 mr-2" /> Profile
-                  </Link>
+                  {user?.role === "therapist" && (
+                    <Link
+                      to="/therapist/dashboard/profile"
+                      className="flex items-center px-4 py-2 hover:bg-gray-100"
+                    >
+                      <Settings className="h-4 w-4 mr-2" /> Profile
+                    </Link>
+                  )}
                 </div>
               )}
 
               {/* Logout button */}
-              <Button
-                variant="outline"
-                onClick={logout}
-                className="text-red-600 border-red-200 hover:bg-red-50"
-              >
-                <LogOut className="h-4 w-4 mr-1" />
-                Logout
-              </Button>
+              <Link to="/therapist">
+                <Button
+                  variant="outline"
+                  onClick={logout}
+                  className="text-red-600 border-red-200 hover:bg-red-50"
+                >
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Logout
+                </Button>
+              </Link>
             </>
           ) : (
             <>

@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar";
 import { useAuth } from "../../../contexts/AuthContext";
 import { PatientRequests } from "../therapistDashboard/patientRequest/PatientRequest";
 
-export default function Home() {
+export const Lannding = () => {
   const { user } = useAuth();
   return (
     <>
@@ -102,4 +102,4 @@ export default function Home() {
       </div>
     </>
   );
-}
+};

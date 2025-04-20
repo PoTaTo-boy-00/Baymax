@@ -23,9 +23,6 @@ import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { db } from "../../lib/firebase";
 import { useAuth } from "../../../contexts/AuthContext";
-import { PatientRequests } from "./patientRequest/PatientRequest";
-import { TherapistMessages } from "./message/TherapistMessages";
-import { TherapistChatPage } from "./message/TherapistChatPage";
 
 export default function TherapistDashboardPage() {
   const { user } = useAuth();
@@ -239,15 +236,15 @@ export default function TherapistDashboardPage() {
                         </p>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm" asChild>
-                      <Link to="/therapist-dashboard/patient-requests">
+                    {/* <Button variant="outline" size="sm" asChild>
+                      <Link to="/therapist/dashboard/patient-requests">
                         View
                       </Link>
-                    </Button>
+                    </Button> */}
                   </div>
                 ))}
                 <Button className="w-full" variant="outline" asChild>
-                  <Link to="/therapist-dashboard/patient-requests">
+                  <Link to="/therapist/dashboard/patient-requests">
                     View All Requests
                   </Link>
                 </Button>
@@ -285,17 +282,15 @@ export default function TherapistDashboardPage() {
                         </p>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm" asChild>
-                      <Link
-                        to={`/therapist-dashboard/appointments/${appointment.id}`}
-                      >
+                    {/* <Button variant="outline" size="sm" asChild>
+                      <Link to={`/therapist/appointments/${appointment.id}`}>
                         View
                       </Link>
-                    </Button>
+                    </Button> */}
                   </div>
                 ))}
                 <Button className="w-full" variant="outline" asChild>
-                  <Link to="/therapist-dashboard/appointments">
+                  <Link to="/therapist/appointments">
                     View All Appointments
                   </Link>
                 </Button>
@@ -344,7 +339,7 @@ export default function TherapistDashboardPage() {
                   </div>
                 ))}
                 <Button variant="outline" className="w-full" asChild>
-                  <Link to="/therapist-dashboard/messages">
+                  <Link to="/therapist/dashboard/messages">
                     View All Messages
                   </Link>
                 </Button>
@@ -357,9 +352,6 @@ export default function TherapistDashboardPage() {
           </CardContent>
         </Card>
       </div>
-      {/* <PatientRequests /> */}
-      <TherapistMessages />
-      {/* <TherapistChatPage /> */}
     </div>
   );
 }
