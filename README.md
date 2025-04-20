@@ -39,4 +39,9 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
 ### Installation
 1. Clone the repo:
    ```bash
-   git clone https://github.com/yourusername/mental-health-app.git
+   git clone https://github.com/PoTaTo-boy-00/Baymax.git
+  ```bash
+  cd Baymax
+2. Install dependencies
+  ```bash
+
