@@ -40,8 +40,52 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
 1. Clone the repo:
    ```bash
    git clone https://github.com/PoTaTo-boy-00/Baymax.git
+   ```
+   
   ```bash
-  cd Baymax
+    cd Baymax
+  ```
 2. Install dependencies
-  ```bash
+   ```bash
+   npm install
+   ```
+3. Set up environment
+   ```bash
+   VITE_FIREBASE_API_KEY=AIzaSyCMeP3kEttFnr87Ht1__1SCyVMAjbkLATg
+    VITE_FIREBASE_AUTH_DOMAIN=""
+    VITE_FIREBASE_PROJECT_ID=""
+    VITE_FIREBASE_STORAGE_BUCKET=""
+    VITE_FIREBASE_MESSAGING_SENDER_ID=""
+    VITE_FIREBASE_APP_ID=""
+    VITE_GEMINI_API_KEY=""
+    ```
+4. Run locally
+   ```bash
+   npm run dev
+   ```
+###🔧 Tech Stack
+-Frontend
+  React + Vite
 
+  Tailwind CSS
+
+  Firebase SDK
+
+-Backend
+  Firebase Firestore
+
+  Firebase Authentication
+
+-AI
+  Gemini API
+
+  Sentiment Analysis
+
+###📂 Project Structure
+  src/
+├── components/  # Reusable UI
+├── hooks/       # Custom hooks
+├── lib/         # Firebase config
+├── pages/       # App screens
+├── styles/      # Global CSS
+└── utils/       # Helper functions
