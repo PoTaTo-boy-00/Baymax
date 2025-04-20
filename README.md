@@ -94,12 +94,15 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
   ```
 
 ## How to Contribute 🤝
-  ### Fork the repository
+   -Fork the repository
 
-  ### Create a new branch
+   -Create a new branch
 
-  ### Commit your changes
+   -Commit your changes
 
-  ### Push to the branch
+   -Push to the branch
 
-  ### Create a Pull Request
+   -Create a Pull Request
+
+## License 
+    MIT © 2024 YourName
