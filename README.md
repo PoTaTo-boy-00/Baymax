@@ -83,12 +83,12 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
 
 ### Project Structure 📂
   src/
-├── components/  # Reusable UI
-├── hooks/       # Custom hooks
-├── lib/         # Firebase config
-├── pages/       # App screens
-├── styles/      # Global CSS
-└── utils/       # Helper functions
+  ├── components/  # Reusable UI
+  ├── hooks/       # Custom hooks
+  ├── lib/         # Firebase config
+  ├── pages/       # App screens
+  ├── styles/      # Global CSS
+  └── utils/       # Helper functions
 
 ### Deployment 🌐
 1. Build for production:
