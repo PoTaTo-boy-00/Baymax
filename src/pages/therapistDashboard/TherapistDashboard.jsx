@@ -27,9 +27,8 @@ import { TherapistMessages } from "./message/TherapistMessages";
 
 import { DashboardLayout } from "./Layout";
 import { SidebarNav } from "@/components/therapist-dashboard/SidebarNav";
-
+import { NotificationBell } from "../../components/Notifications/NotificationBell";
 import Navbar from "../../components/Navbar";
-import { VideoCall } from "../videoCall/VideoCall";
 
 export const TherapistDashboard = () => {
   const { user } = useAuth();
@@ -165,6 +164,7 @@ export const TherapistDashboard = () => {
 
   return (
     <>
+      <Navbar />
       <DashboardLayout sidebarNav={<SidebarNav />}>
         <div className="space-y-6">
           <h1 className="text-3xl font-bold">Dashboard</h1>
@@ -365,6 +365,7 @@ export const TherapistDashboard = () => {
             </Card>
           </div>
           {/* <VideoCall /> */}
+          <NotificationBell />
         </div>
       </DashboardLayout>
     </>

@@ -28,12 +28,10 @@ import { Lannding } from "./pages/Landing/Landing";
 
 import { Signup } from "./pages/Signup/Signup";
 import { Login } from "./pages/Login/UserLogin";
-import { TherapistDashboard} from "./pages/therapistDashboard/TherapistDashboard";
+import { TherapistDashboard } from "./pages/therapistDashboard/TherapistDashboard";
 import { PatientDetail } from "./pages/therapistDashboard/patient/PatientDetail";
 import { TherapistPatients } from "./pages/therapistDashboard/patient/TherapistPatient";
 // import { TherapistDashboard } from "./pages/therapistDashboard/TherapistDashboard";
-import { VideoCallRoom } from "./pages/videoCall/VideoCallRoom";
-import { VideoCall } from "./pages/videoCall/VideoCall";
 
 function App() {
   return (
@@ -47,7 +45,7 @@ function App() {
 
           {/* therapist */}
 
-          <Route path="/therapist/dashboard" element={<TherapistDashboard/>} />
+          <Route path="/therapist/dashboard" element={<TherapistDashboard />} />
 
           <Route path="/therapist/dashboard/profile" element={<Profile />} />
 
@@ -61,8 +59,14 @@ function App() {
             element={<TherapistMessages />}
           />
 
-          <Route path="/therapist/dashboard/patient/:patientId" element={<PatientDetail />} />
-          <Route path="/therapist/dashboard/patient" element={<TherapistPatients />} />
+          <Route
+            path="/therapist/dashboard/patient/:patientId"
+            element={<PatientDetail />}
+          />
+          <Route
+            path="/therapist/dashboard/patient"
+            element={<TherapistPatients />}
+          />
 
           {/* user */}
 
@@ -90,12 +94,6 @@ function App() {
           />
 
           <Route path="/chat/:therapistId" element={<Chat />} />
-
-          {/* vdo call
-           */}
-
-          <Route path="/video-call/:callId" element={<VideoCallRoom />} />
-          <Route path="/video-call" element={<VideoCall />} />
         </Routes>
       </BrowserRouter>
     </>

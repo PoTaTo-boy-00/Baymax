@@ -40,7 +40,8 @@ const UserDashboard = () => {
     if (!selectedMood) {
       toast({
         title: "Please select a mood",
-        description: "Select how you're feeling before submitting your journal entry.",
+        description:
+          "Select how you're feeling before submitting your journal entry.",
         variant: "destructive",
       });
       return;
@@ -65,7 +66,8 @@ const UserDashboard = () => {
       console.error("Error analyzing or logging:", error);
       toast({
         title: "Error",
-        description: "There was a problem analyzing your entry. Please try again.",
+        description:
+          "There was a problem analyzing your entry. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -79,86 +81,85 @@ const UserDashboard = () => {
 
   return (
     <>
-    <Navbar />
-    <div className="bg-gradient-to-r from-indigo-100 to-indigo-300 min-h-screen flex items-center justify-center">
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          overflow: "hidden",
-          width: "100%",
-        }}
-      >
-        <div className="max-w-md mx-auto space-y-6 pb-20 z-10">
-          <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">
-            Baymax
-          </h1>
-
-          <Card className="border-0 shadow-md bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-lg text-center">
-                Talk to me about your day
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <MoodSelector
-                onSelect={handleSelectMood}
-                selectedMood={selectedMood}
-              />
-              <JournalEntry
-                onSubmit={handleJournalSubmit}
-                isAnalyzing={isAnalyzing}
-                disabled={!selectedMood}
-              />
-            </CardContent>
-          </Card>
-
-          {geminiResponse && (
-            <SentimentAnalysis
-              sentiment={geminiResponse.sentiment}
-              analysis={geminiResponse.analysis}
-              support={geminiResponse.support}
-              affirmation={geminiResponse.affirmation}
-              suggestion={geminiResponse.suggestion}
-            />
-          )}
-
-          <Button
-            onClick={handleTherapistClick}
-            className="w-full h-12 text-lg font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-all duration-300 ease-in-out rounded-xl mt-4"
-          >
-            Find me a Therapist
-          </Button>
-        </div>
-
+      <div className="bg-gradient-to-r from-indigo-100 to-indigo-300 min-h-screen flex items-center justify-center">
         <div
           style={{
-            width: "40%",
-            position: "absolute",
-            right: 0,
-            bottom: 0,
+            minHeight: "100vh",
             display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-            padding: "2rem",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            overflow: "hidden",
+            width: "100%",
           }}
         >
-          <img
-            src={baymax}
-            alt="Baymax waving hi"
+          <div className="max-w-md mx-auto space-y-6 pb-20 z-10">
+            <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">
+              Baymax
+            </h1>
+
+            <Card className="border-0 shadow-md bg-white/80 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-lg text-center">
+                  Talk to me about your day
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <MoodSelector
+                  onSelect={handleSelectMood}
+                  selectedMood={selectedMood}
+                />
+                <JournalEntry
+                  onSubmit={handleJournalSubmit}
+                  isAnalyzing={isAnalyzing}
+                  disabled={!selectedMood}
+                />
+              </CardContent>
+            </Card>
+
+            {geminiResponse && (
+              <SentimentAnalysis
+                sentiment={geminiResponse.sentiment}
+                analysis={geminiResponse.analysis}
+                support={geminiResponse.support}
+                affirmation={geminiResponse.affirmation}
+                suggestion={geminiResponse.suggestion}
+              />
+            )}
+
+            <Button
+              onClick={handleTherapistClick}
+              className="w-full h-12 text-lg font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-all duration-300 ease-in-out rounded-xl mt-4"
+            >
+              Find me a Therapist
+            </Button>
+          </div>
+
+          <div
             style={{
-              maxWidth: "100%",
-              height: "auto",
-              objectFit: "contain",
-              transform: "translateX(10%)",
+              width: "40%",
+              position: "absolute",
+              right: 0,
+              bottom: 0,
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
+              padding: "2rem",
             }}
-          />
+          >
+            <img
+              src={baymax}
+              alt="Baymax waving hi"
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                objectFit: "contain",
+                transform: "translateX(10%)",
+              }}
+            />
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
