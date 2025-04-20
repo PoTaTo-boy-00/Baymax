@@ -16,7 +16,6 @@ import { TherapistChat } from "./pages/therapistDashboard/message/TherapistChat"
 import { GetTherapist } from "./pages/Therapist/GetTherapist";
 import { TherapistBooking } from "./pages/Therapist/TherapistBooking";
 import { TherapistRegister } from "./pages/therapistDashboard/register/TherapistRegister";
-// import Login from "./pages/login/login";
 
 import Navbar from "./components/Navbar";
 // import { UserAppointment } from "./pages/userSideTherapist/UserSideTherapist";
@@ -24,8 +23,9 @@ import UserAppointment from "./pages/Appointment/UserAppoinment";
 import { Appointments } from "./pages/therapistDashboard/therapistAppointment/TherapistAppointment";
 
 import { Lannding } from "./pages/Landing/Landing";
-import { Login } from "./pages/Login/login";
+
 import { Signup } from "./pages/Signup/Signup";
+import { Login } from "./pages/Login/UserLogin";
 
 function App() {
   return (
