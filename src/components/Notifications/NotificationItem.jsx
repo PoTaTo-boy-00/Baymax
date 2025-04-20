@@ -1,8 +1,10 @@
 import { formatDistanceToNow } from "date-fns";
 import { MessageSquare, Calendar, Video } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export const NotificationItem = ({ notification }) => {
+  const { user } = useAuth();
   const { type, message, createdAt, read } = notification;
 
   // Get the appropriate icon based on notification type
@@ -19,16 +21,19 @@ export const NotificationItem = ({ notification }) => {
     }
   };
 
-  // Get the appropriate link based on notification type
+  // Get the appropriate link based on notification type and user role
   const getLink = () => {
+    const basePath = user?.role === "therapist" ? "/therapist" : "/user";
+
     switch (type) {
       case "message":
-        return "/therapist/dashboard/messages";
+        return `${basePath}/messages`;
       case "appointment":
-        return "/therapist/appointments";
-
+        return `${basePath}/appointments`;
+      case "video-call":
+        return `${basePath}/video-call`;
       default:
-        return "/therapist/dashboard";
+        return `${basePath}/dashboard`;
     }
   };
 
