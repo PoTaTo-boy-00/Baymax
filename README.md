@@ -105,4 +105,4 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
    -Create a Pull Request
 
 ## License 
-    MIT © 2024 YourName
+  MIT © 2024 YourName
