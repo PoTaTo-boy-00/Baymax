@@ -51,7 +51,7 @@ A privacy-focused web app for anonymous mental health tracking, therapist matchi
    ```
 3. Set up environment
    ```bash
-   VITE_FIREBASE_API_KEY=AIzaSyCMeP3kEttFnr87Ht1__1SCyVMAjbkLATg
+   VITE_FIREBASE_API_KEY=""
     VITE_FIREBASE_AUTH_DOMAIN=""
     VITE_FIREBASE_PROJECT_ID=""
     VITE_FIREBASE_STORAGE_BUCKET=""
